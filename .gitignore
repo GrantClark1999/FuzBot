@@ -34,6 +34,9 @@ db/data
 # OSX
 .DS_Store
 
+# API Endpoints
+app/constants/api.json
+
 # App packaged
 release
 app/main.prod.js
