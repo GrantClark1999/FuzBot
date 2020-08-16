@@ -1,0 +1,4 @@
+{
+  "PUBSUB_URL": "replace me with a pubsub api endpoint",
+  "EXCHANGE_URL": "replace me with a OIDC code -> tokens api endpoint"
+}
