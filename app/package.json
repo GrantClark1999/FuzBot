@@ -1,0 +1,16 @@
+{
+  "name": "fuzbo-bot",
+  "productName": "fuzbo-bot",
+  "version": "0.1.0",
+  "author": {
+    "name": "Grant Clark"
+  },
+  "description": "Twitch bot that helps automate the use of channel points to do tasks.",
+  "main": "./main.prod.js",
+  "scripts": {
+    "electron-rebuild": "node -r ../scripts/BabelRegister.js ../scripts/ElectronRebuild.js",
+    "postinstall": "yarn electron-rebuild"
+  },
+  "license": "MIT",
+  "dependencies": {}
+}
