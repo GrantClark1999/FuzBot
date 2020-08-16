@@ -83,7 +83,7 @@
     "publish": {
       "provider": "github",
       "owner": "GrantClark209",
-      "repo": "fuzbo-bot",
+      "repo": "FuzBot",
       "private": true
     }
   },
