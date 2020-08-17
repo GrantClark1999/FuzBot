@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import { useMediaQuery, CssBaseline } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { deepPurple, lightBlue } from '@material-ui/core/colors';
 import routes from 'constants/routes.json';
 import Layout from 'components/layout/Layout';
 import Login from './Login/Login';
@@ -13,22 +14,22 @@ import { selectIsAuth } from './Login/authSlice';
 export default function App() {
   const isAuth = useSelector(selectIsAuth);
 
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   const theme = React.useMemo(
     () =>
       createMuiTheme({
         palette: {
-          type: prefersDarkMode ? 'dark' : 'light',
+          type: 'dark',
           primary: {
-            main: '#7e57c2',
+            main: deepPurple[400],
           },
           secondary: {
-            main: '#cccccc',
+            main: lightBlue[200],
           },
         },
       }),
-    [prefersDarkMode]
+    []
   );
 
   const loginRoutes = <Route path={routes.DEFAULT} component={Login} />;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, createStyles } from '@material-ui/core';
+import { Paper, makeStyles, createStyles } from '@material-ui/core';
 import Reward from './Reward';
 
 const useStyles = makeStyles(() => {
@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => {
 export default function Rewards() {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <Paper elevation={2} className={classes.root}>
       <Reward
         rewardName="Blind Me (5 sec)"
         rewardCost="100,000"
@@ -39,6 +39,6 @@ export default function Rewards() {
         rewardBgColor="#cc0000"
         warn={false}
       />
-    </div>
+    </Paper>
   );
 }
