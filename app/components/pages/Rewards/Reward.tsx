@@ -9,7 +9,6 @@ type RewardProps = {
   rewardBgColor: string;
   pointsImage: string;
   rewardImage: string;
-  warn: boolean;
   numRewards?: number;
 };
 
@@ -25,7 +24,6 @@ export default function Reward({
   rewardBgColor,
   pointsImage,
   rewardImage,
-  warn,
   numRewards = defaultProps.numRewards,
 }: RewardProps) {
   const ref = useRef<HTMLDivElement>(null);
