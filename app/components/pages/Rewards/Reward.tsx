@@ -1,13 +1,7 @@
-import React from 'react';
-import {
-  Paper,
-  Typography,
-  makeStyles,
-  createStyles,
-  useTheme,
-  Theme,
-  fade,
-} from '@material-ui/core';
+import React, { useRef } from 'react';
+import { Paper } from '@material-ui/core';
+import useResize from 'components/common/useResize';
+import classes from './Reward.css';
 
 type RewardProps = {
   rewardName: string;
@@ -16,76 +10,12 @@ type RewardProps = {
   pointsImage: string;
   rewardImage: string;
   warn: boolean;
-  scale?: number;
+  numRewards?: number;
 };
 
 const defaultProps = {
-  scale: 1,
+  numRewards: 6,
 };
-
-const useStyles = (theme: Theme, scale: number) =>
-  makeStyles(
-    () =>
-      createStyles({
-        root: {
-          flexBasis: 'calc(100% / 3)',
-          padding: 'calc(5% / 3)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        rewardPaper: {
-          width: '100%',
-          height: 0,
-          paddingTop: '100%',
-          position: 'relative',
-        },
-        rewardPaperContent: {
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        },
-        rewardImg: {
-          marginTop: theme.spacing(3.5),
-          width: theme.spacing(3.5),
-          height: theme.spacing(3.5),
-        },
-        pointsPaper: {
-          height: theme.spacing(2.5),
-          padding: theme.spacing(0.5),
-          marginBottom: theme.spacing(1),
-          display: 'flex',
-          flexWrap: 'nowrap',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: fade('#000000', 0.35),
-        },
-        pointsCost: {
-          marginLeft: theme.spacing(1),
-          fontSize: theme.spacing(1.5),
-        },
-        pointsImg: {
-          width: theme.spacing(1.5),
-          height: theme.spacing(1.5),
-        },
-        label: {
-          width: theme.spacing(12),
-          height: theme.spacing(4),
-          fontSize: theme.spacing(1.375),
-          textAlign: 'center',
-          backgroundColor: 'transparent',
-          wordBreak: 'break-word',
-        },
-      }),
-    { name: 'Reward' }
-  );
 
 Reward.defaultProps = defaultProps;
 
@@ -96,29 +26,54 @@ export default function Reward({
   pointsImage,
   rewardImage,
   warn,
-  scale = defaultProps.scale,
+  numRewards = defaultProps.numRewards,
 }: RewardProps) {
-  const theme = useTheme();
-  const classes = useStyles(theme, scale)();
+  const ref = useRef<HTMLDivElement>(null);
+  const size = useResize(ref);
+
+  let fontSize = 11;
+  let currencySize = 12;
+  if (size !== 0) {
+    fontSize = (11 / 103) * (size - 1);
+    currencySize = (12 / 103) * (size - 1);
+  }
+
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.reward}
+      style={{
+        flexBasis: `calc(100% / ${numRewards})`,
+        fontSize: `${fontSize}px`,
+      }}
+      ref={ref}
+    >
       <Paper
-        className={classes.rewardPaper}
-        style={{ backgroundColor: rewardBgColor }}
+        className={classes['reward-icon-background']}
+        style={{
+          backgroundColor: rewardBgColor,
+        }}
       >
-        <div className={classes.rewardPaperContent}>
+        <div className={classes['reward-icon']}>
           <img
             src={rewardImage}
             alt="Reward Icon"
-            className={classes.rewardImg}
+            className={classes['reward-icon__image']}
           />
-          <Paper elevation={0} className={classes.pointsPaper}>
-            <img src={pointsImage} alt="Points" className={classes.pointsImg} />
-            <Typography className={classes.pointsCost}>{rewardCost}</Typography>
+          <Paper elevation={2} square className={classes['reward-icon__cost']}>
+            <img
+              src={pointsImage}
+              alt="Points Icon"
+              style={{
+                width: `${currencySize}px`,
+                height: `${currencySize}px`,
+                marginRight: `${0.5 * fontSize}px`,
+              }}
+            />
+            <p className={classes['reward-icon__cost__text']}>{rewardCost}</p>
           </Paper>
         </div>
       </Paper>
-      <Typography className={classes.label}>{rewardName}</Typography>
+      <p className={classes['reward-label']}>{rewardName}</p>
     </div>
   );
 }
