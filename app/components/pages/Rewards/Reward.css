@@ -1,9 +1,3 @@
-.reward {
-  width: 100%;
-  font-size: 11px;
-  padding: 1em;
-}
-
 .reward-item {
   padding: 0.5em;
   text-align: center;
@@ -46,13 +40,14 @@
   justify-content: center;
 }
 
-.reward-icon__cost__text {
-  margin: 0;
+.reward-icon__cost__image {
+  width: calc((12 / 11) * 1em);
+  height: calc((12 / 11) * 1em);
+  margin-right: 0.5em;
 }
 
-.reward-label__box {
-  margin: calc((5 / 11) * 1em) 0 0;
-  height: 3em;
+.reward-icon__cost__text {
+  margin: 0;
 }
 
 .reward-label {

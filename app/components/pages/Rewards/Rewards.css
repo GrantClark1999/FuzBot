@@ -1,10 +1,10 @@
 .rewards {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
   justify-content: flex-start;
 }
 
 .reward {
-  width: calc(100% / 6);
+  flex-basis: calc(100% / 6);
+  min-width: 103px;
 }
