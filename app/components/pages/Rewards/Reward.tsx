@@ -37,7 +37,8 @@ export default function Reward({
   }
 
   return (
-    <div
+    <Paper
+      elevation={7}
       className={classes.reward}
       style={{
         flexBasis: `calc(100% / ${numRewards})`,
@@ -72,6 +73,6 @@ export default function Reward({
         </div>
       </Paper>
       <p className={classes['reward-label']}>{rewardName}</p>
-    </div>
+    </Paper>
   );
 }
