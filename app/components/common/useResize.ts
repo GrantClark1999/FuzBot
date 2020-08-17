@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 export default function useResize(myRef: React.RefObject<HTMLDivElement>) {
-  const [size, setSize] = useState(93);
+  const [size, setSize] = useState(0);
 
   useEffect(() => {
     const handleResize = () => {
-      setSize(myRef?.current?.offsetWidth ?? 93);
+      setSize(myRef?.current?.offsetWidth ?? 0);
     };
 
     window.addEventListener('resize', handleResize);

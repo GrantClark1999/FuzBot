@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { Paper } from '@material-ui/core';
 import useResize from 'components/common/useResize';
 import classes from './Reward.css';
@@ -9,14 +9,7 @@ type RewardProps = {
   rewardBgColor: string;
   pointsImage: string;
   rewardImage: string;
-  numRewards?: number;
 };
-
-const defaultProps = {
-  numRewards: 6,
-};
-
-Reward.defaultProps = defaultProps;
 
 export default function Reward({
   rewardName,
@@ -24,7 +17,6 @@ export default function Reward({
   rewardBgColor,
   pointsImage,
   rewardImage,
-  numRewards = defaultProps.numRewards,
 }: RewardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const size = useResize(ref);
@@ -37,42 +29,38 @@ export default function Reward({
   }
 
   return (
-    <Paper
-      elevation={7}
-      className={classes.reward}
-      style={{
-        flexBasis: `calc(100% / ${numRewards})`,
-        fontSize: `${fontSize}px`,
-      }}
-      ref={ref}
-    >
-      <Paper
-        className={classes['reward-icon-background']}
-        style={{
-          backgroundColor: rewardBgColor,
-        }}
-      >
-        <div className={classes['reward-icon']}>
-          <img
-            src={rewardImage}
-            alt="Reward Icon"
-            className={classes['reward-icon__image']}
-          />
-          <Paper elevation={2} square className={classes['reward-icon__cost']}>
+    <div className={classes.reward} style={{ fontSize: `${fontSize}px` }}>
+      <Paper elevation={7} className={classes['reward-item']} ref={ref}>
+        <Paper
+          className={classes['reward-icon-background']}
+          style={{ backgroundColor: rewardBgColor }}
+        >
+          <div className={classes['reward-icon']}>
             <img
-              src={pointsImage}
-              alt="Points Icon"
-              style={{
-                width: `${currencySize}px`,
-                height: `${currencySize}px`,
-                marginRight: `${0.5 * fontSize}px`,
-              }}
+              src={rewardImage}
+              alt="Reward Icon"
+              className={classes['reward-icon__image']}
             />
-            <p className={classes['reward-icon__cost__text']}>{rewardCost}</p>
-          </Paper>
-        </div>
+            <Paper
+              elevation={2}
+              square
+              className={classes['reward-icon__cost']}
+            >
+              <img
+                src={pointsImage}
+                alt="Points Icon"
+                style={{
+                  width: `${currencySize}px`,
+                  height: `${currencySize}px`,
+                  marginRight: `${0.5 * fontSize}px`,
+                }}
+              />
+              <p className={classes['reward-icon__cost__text']}>{rewardCost}</p>
+            </Paper>
+          </div>
+        </Paper>
+        <p className={classes['reward-label']}>{rewardName}</p>
       </Paper>
-      <p className={classes['reward-label']}>{rewardName}</p>
-    </Paper>
+    </div>
   );
 }

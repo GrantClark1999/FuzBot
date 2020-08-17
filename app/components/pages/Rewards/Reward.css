@@ -1,13 +1,15 @@
 .reward {
-  flex-basis: calc(100% / 3);
+  width: 100%;
   font-size: 11px;
+  padding: 1em;
+}
+
+.reward-item {
   padding: 0.5em;
   text-align: center;
-  min-width: 103px;
 }
 
 .reward-icon-background {
-  width: 100%;
   height: 0;
   padding-top: 100%;
   position: relative;
@@ -37,7 +39,7 @@
   top: 67.7%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.35);
+  background-color: rgba(0, 0, 0, 0.35)!important;
   border-radius: calc((2 / 11) * 1em);
   display: flex;
   align-items: center;
@@ -46,6 +48,11 @@
 
 .reward-icon__cost__text {
   margin: 0;
+}
+
+.reward-label__box {
+  margin: calc((5 / 11) * 1em) 0 0;
+  height: 3em;
 }
 
 .reward-label {
