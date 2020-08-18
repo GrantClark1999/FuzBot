@@ -28,7 +28,7 @@ export default function Reward({
             alt="Reward Icon"
             className={classes['reward-icon__image']}
           />
-          <Paper elevation={2} square className={classes['reward-icon__cost']}>
+          <Paper elevation={2} className={classes['reward-icon__cost']}>
             <img
               src={pointsImage}
               alt="Points Icon"

@@ -71,7 +71,7 @@ const rewards = [
       'https://static-cdn.jtvnw.net/channel-points-icons/82521150/a1d00694-ee60-43ad-a336-42f68730d88f/icon-4.png',
     rewardImage:
       'https://static-cdn.jtvnw.net/custom-reward-images/default-4.png',
-    rewardBgColor: '#00cc00',
+    rewardBgColor: '#cccc00',
   },
   {
     rewardId: '2',
@@ -81,7 +81,7 @@ const rewards = [
       'https://static-cdn.jtvnw.net/channel-points-icons/82521150/a1d00694-ee60-43ad-a336-42f68730d88f/icon-4.png',
     rewardImage:
       'https://static-cdn.jtvnw.net/custom-reward-images/default-4.png',
-    rewardBgColor: '#0000cc',
+    rewardBgColor: '#00cc00',
   },
   {
     rewardId: '3',
@@ -91,7 +91,7 @@ const rewards = [
       'https://static-cdn.jtvnw.net/channel-points-icons/82521150/a1d00694-ee60-43ad-a336-42f68730d88f/icon-4.png',
     rewardImage:
       'https://static-cdn.jtvnw.net/custom-reward-images/default-4.png',
-    rewardBgColor: '#000000',
+    rewardBgColor: '#00cccc',
   },
   {
     rewardId: '4',
@@ -101,7 +101,7 @@ const rewards = [
       'https://static-cdn.jtvnw.net/channel-points-icons/82521150/a1d00694-ee60-43ad-a336-42f68730d88f/icon-4.png',
     rewardImage:
       'https://static-cdn.jtvnw.net/custom-reward-images/default-4.png',
-    rewardBgColor: '#cccccc',
+    rewardBgColor: '#0000cc',
   },
   {
     rewardId: '5',
@@ -121,7 +121,7 @@ const rewards = [
       'https://static-cdn.jtvnw.net/channel-points-icons/82521150/a1d00694-ee60-43ad-a336-42f68730d88f/icon-4.png',
     rewardImage:
       'https://static-cdn.jtvnw.net/custom-reward-images/default-4.png',
-    rewardBgColor: '#00cccc',
+    rewardBgColor: '#cccccc',
   },
   {
     rewardId: '7',
@@ -131,7 +131,7 @@ const rewards = [
       'https://static-cdn.jtvnw.net/channel-points-icons/82521150/a1d00694-ee60-43ad-a336-42f68730d88f/icon-4.png',
     rewardImage:
       'https://static-cdn.jtvnw.net/custom-reward-images/default-4.png',
-    rewardBgColor: '#cccc00',
+    rewardBgColor: '#000000',
   },
 ];
 
