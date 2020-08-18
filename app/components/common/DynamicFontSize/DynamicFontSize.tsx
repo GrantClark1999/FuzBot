@@ -1,5 +1,6 @@
 import React from 'react';
 import ContainerDimensions from 'react-container-dimensions';
+import classes from './DynamicFontSize.css';
 
 type DynamicPaperProps = {
   /**
@@ -32,6 +33,7 @@ export default function DynamicPaper({
     <ContainerDimensions>
       {({ width }) => (
         <div
+          className={classes.fullwidth}
           style={{
             ...style,
             width: '100%',

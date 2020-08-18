@@ -1,0 +1,17 @@
+.add-reward-dialog__flex-container {
+  display: flex;
+  justify-content: center;
+}
+
+.add-reward-dialog__reward-element {
+  flex-basis: 50%;
+  min-width: 117px;
+}
+
+.add-reward-dialog__description-element {
+  flex-basis: 50%;
+  min-width: 117px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

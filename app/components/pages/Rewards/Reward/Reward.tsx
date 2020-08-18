@@ -2,13 +2,18 @@ import React from 'react';
 import { Paper } from '@material-ui/core';
 import DynamicFontSize from 'components/common/DynamicFontSize/DynamicFontSize';
 import SquarePaper from 'components/common/SquarePaper/SquarePaper';
-import { RewardDoc } from '../../../../db/types';
+import { RewardDoc } from '../../../../../db/types';
 import classes from './Reward.css';
 
 type RewardProps = Omit<
   RewardDoc,
-  '_id' | 'rewardId' | 'isQueued' | 'position' | 'warn'
->;
+  '_id' | 'rewardId' | 'rewardCost' | 'isQueued' | 'position' | 'warn'
+> & { rewardCost: number | string };
+
+function transformCost(cost: number | string) {
+  if (typeof cost === 'string') return cost;
+  return cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 
 export default function Reward({
   rewardName,
@@ -32,7 +37,9 @@ export default function Reward({
               alt="Points Icon"
               className={classes['reward-icon__cost__image']}
             />
-            <p className={classes['reward-icon__cost__text']}>{rewardCost}</p>
+            <p className={classes['reward-icon__cost__text']}>
+              {transformCost(rewardCost)}
+            </p>
           </Paper>
         </SquarePaper>
         <p className={classes['reward-label']}>{rewardName}</p>

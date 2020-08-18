@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
+import { Button } from '@material-ui/core';
 import { RewardDoc } from '../../../../db/types';
-import Reward from './Reward';
+import Reward from './Reward/Reward';
 import classes from './Rewards.css';
+import AddRewardDialog from './AddRewardDialog/AddRewardDialog';
 
 const SortableRewardItem = SortableElement(
   ({ reward }: { reward: RewardDoc }) => {
@@ -143,6 +145,16 @@ const rewards = [
   },
 ];
 
+const defaultReward = (
+  <Reward
+    rewardName="Your Reward Here"
+    rewardCost="Cost"
+    pointsImage="https://static-cdn.jtvnw.net/channel-points-icons/82521150/a1d00694-ee60-43ad-a336-42f68730d88f/icon-4.png"
+    rewardImage="https://static-cdn.jtvnw.net/custom-reward-images/default-4.png"
+    rewardBgColor="#9d50bb"
+  />
+);
+
 export default function Rewards() {
   // TODO: Outsource to Redux state
   const [rewardList, setRewardList] = useState(rewards);
@@ -157,7 +169,42 @@ export default function Rewards() {
     setRewardList(arrayMove(rewardList, oldIndex, newIndex));
   }
 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [canSave, setCanSave] = useState(false);
+  // TODO: Outsource to Redux state
+  const [reward, setReward] = useState(undefined);
+
+  function handleDialogOpen() {
+    setIsDialogOpen(true);
+  }
+
+  function handleDialogClose() {
+    setIsDialogOpen(false);
+  }
+
+  function handleSaveReward() {
+    // save reward from redux state to database
+    setIsDialogOpen(false);
+  }
+
   return (
-    <SortableRewardList rewards={rewardList} onSortEnd={onSortEnd} axis="xy" />
+    <>
+      <Button variant="contained" color="secondary" onClick={handleDialogOpen}>
+        Add Reward
+      </Button>
+      <AddRewardDialog
+        open={isDialogOpen}
+        canSave={canSave}
+        handleClose={handleDialogClose}
+        handleSave={handleSaveReward}
+      >
+        {reward ?? defaultReward}
+      </AddRewardDialog>
+      <SortableRewardList
+        rewards={rewardList}
+        onSortEnd={onSortEnd}
+        axis="xy"
+      />
+    </>
   );
 }
