@@ -16,10 +16,15 @@ ipcMain.on('logReward', async (_event, doc: RewardDoc) => {
 });
 
 ipcMain.on('updateRewardOrder', (_event, docs: RewardDoc[]) => {
-  for (let i = 0; i < docs.length; i += 1) {
-    docs[i].position = i;
-    update(docs[i]);
+  const newDocs = [...docs];
+  for (let i = 0; i < newDocs.length; i += 1) {
+    newDocs[i].position = i;
+    update(newDocs[i]);
   }
+});
+
+ipcMain.on('updatePointsImage', (_event, pointsImage: string) => {
+  db.update({}, { $set: { pointsImage } });
 });
 
 // Read

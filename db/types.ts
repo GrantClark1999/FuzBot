@@ -35,7 +35,8 @@ export type RewardDoc = {
   rewardCost: number;
   rewardBgColor: string;
   rewardImage: string;
-  warn: boolean;
+  pointsImage?: string;
+  warn?: boolean;
   isQueued: boolean;
 };
 

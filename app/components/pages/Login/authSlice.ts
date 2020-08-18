@@ -3,7 +3,7 @@ import { ipcRenderer } from 'electron';
 // eslint-disable-next-line import/no-cycle
 import { AppThunk, RootState } from '../../../store';
 
-export type Payload<T> = {
+type Payload<T> = {
   payload: T;
 };
 

@@ -1,11 +1,11 @@
+/* eslint-disable import/no-cycle */
 import { configureStore, getDefaultMiddleware, Action } from '@reduxjs/toolkit';
 import { createHashHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import { createLogger } from 'redux-logger';
 import { ThunkAction } from 'redux-thunk';
-// eslint-disable-next-line import/no-cycle
 import { initAuthData } from 'components/pages/Login/authSlice';
-// eslint-disable-next-line import/no-cycle
+import { initRewardData } from './components/pages/Rewards/rewardsSlice';
 import createRootReducer from './rootReducer';
 
 export const history = createHashHistory();
@@ -46,6 +46,7 @@ export const configuredStore = (initialState?: RootState) => {
   }
 
   store.dispatch(initAuthData());
+  store.dispatch(initRewardData());
 
   return store;
 };

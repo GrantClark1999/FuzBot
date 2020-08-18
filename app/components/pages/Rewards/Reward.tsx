@@ -2,15 +2,13 @@ import React from 'react';
 import { Paper } from '@material-ui/core';
 import DynamicFontSize from 'components/common/DynamicFontSize/DynamicFontSize';
 import SquarePaper from 'components/common/SquarePaper/SquarePaper';
+import { RewardDoc } from '../../../../db/types';
 import classes from './Reward.css';
 
-type RewardProps = {
-  rewardName: string;
-  rewardCost: string;
-  rewardBgColor: string;
-  pointsImage: string;
-  rewardImage: string;
-};
+type RewardProps = Omit<
+  RewardDoc,
+  '_id' | 'rewardId' | 'isQueued' | 'position' | 'warn'
+>;
 
 export default function Reward({
   rewardName,

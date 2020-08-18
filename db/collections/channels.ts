@@ -36,7 +36,7 @@ ipcMain.once('fetchAuthData', async (event) => {
 
 // Update
 ipcMain.on('updateActive', (_event, token: AccessToken) => {
-  db.update({ active: true }, { $set: token }, { returnUpdatedDocs: true });
+  db.update({ active: true }, { $set: token });
 });
 
 // Helpers
@@ -50,21 +50,17 @@ async function makeActive(doc: ChannelDoc) {
   }
   // If a channel is active, deactivate it.
   if (numActive === 1) {
-    await db.update(
-      { active: true },
-      { $unset: { active: true } },
-      { returnUpdatedDocs: true }
-    );
+    await db.update({ active: true }, { $unset: { active: true } });
   }
 
   doc.active = true;
   const { channelId } = doc;
-  await db.update({ channelId }, doc, {
+  const newDoc = await db.update({ channelId }, doc, {
     upsert: true,
     multi: false,
     returnUpdatedDocs: true,
   });
-  return doc;
+  return newDoc;
 }
 
 export default function loadChannels() {
