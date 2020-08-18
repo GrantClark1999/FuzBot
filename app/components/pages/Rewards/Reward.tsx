@@ -1,6 +1,7 @@
 import React from 'react';
 import { Paper } from '@material-ui/core';
 import DynamicFontSize from 'components/common/DynamicFontSize/DynamicFontSize';
+import SquarePaper from 'components/common/SquarePaper/SquarePaper';
 import classes from './Reward.css';
 
 type RewardProps = {
@@ -21,30 +22,21 @@ export default function Reward({
   return (
     <DynamicFontSize ratio={11 / 103} style={{ padding: '0.5em' }}>
       <Paper elevation={4} className={classes['reward-item']}>
-        <Paper
-          className={classes['reward-icon-background']}
-          style={{ backgroundColor: rewardBgColor }}
-        >
-          <div className={classes['reward-icon']}>
+        <SquarePaper style={{ backgroundColor: rewardBgColor }}>
+          <img
+            src={rewardImage}
+            alt="Reward Icon"
+            className={classes['reward-icon__image']}
+          />
+          <Paper elevation={2} square className={classes['reward-icon__cost']}>
             <img
-              src={rewardImage}
-              alt="Reward Icon"
-              className={classes['reward-icon__image']}
+              src={pointsImage}
+              alt="Points Icon"
+              className={classes['reward-icon__cost__image']}
             />
-            <Paper
-              elevation={2}
-              square
-              className={classes['reward-icon__cost']}
-            >
-              <img
-                src={pointsImage}
-                alt="Points Icon"
-                className={classes['reward-icon__cost__image']}
-              />
-              <p className={classes['reward-icon__cost__text']}>{rewardCost}</p>
-            </Paper>
-          </div>
-        </Paper>
+            <p className={classes['reward-icon__cost__text']}>{rewardCost}</p>
+          </Paper>
+        </SquarePaper>
         <p className={classes['reward-label']}>{rewardName}</p>
       </Paper>
     </DynamicFontSize>
