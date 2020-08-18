@@ -1,6 +1,6 @@
 import React from 'react';
 import { Paper } from '@material-ui/core';
-import DynamicPaper from 'components/common/DynamicPaper';
+import DynamicFontSize from 'components/common/DynamicFontSize/DynamicFontSize';
 import classes from './Reward.css';
 
 type RewardProps = {
@@ -19,32 +19,34 @@ export default function Reward({
   rewardImage,
 }: RewardProps) {
   return (
-    <DynamicPaper
-      ratio={11 / 103}
-      elevation={4}
-      className={classes['reward-item']}
-    >
-      <Paper
-        className={classes['reward-icon-background']}
-        style={{ backgroundColor: rewardBgColor }}
-      >
-        <div className={classes['reward-icon']}>
-          <img
-            src={rewardImage}
-            alt="Reward Icon"
-            className={classes['reward-icon__image']}
-          />
-          <Paper elevation={2} square className={classes['reward-icon__cost']}>
+    <DynamicFontSize ratio={11 / 103} style={{ padding: '0.5em' }}>
+      <Paper elevation={4} className={classes['reward-item']}>
+        <Paper
+          className={classes['reward-icon-background']}
+          style={{ backgroundColor: rewardBgColor }}
+        >
+          <div className={classes['reward-icon']}>
             <img
-              src={pointsImage}
-              alt="Points Icon"
-              className={classes['reward-icon__cost__image']}
+              src={rewardImage}
+              alt="Reward Icon"
+              className={classes['reward-icon__image']}
             />
-            <p className={classes['reward-icon__cost__text']}>{rewardCost}</p>
-          </Paper>
-        </div>
+            <Paper
+              elevation={2}
+              square
+              className={classes['reward-icon__cost']}
+            >
+              <img
+                src={pointsImage}
+                alt="Points Icon"
+                className={classes['reward-icon__cost__image']}
+              />
+              <p className={classes['reward-icon__cost__text']}>{rewardCost}</p>
+            </Paper>
+          </div>
+        </Paper>
+        <p className={classes['reward-label']}>{rewardName}</p>
       </Paper>
-      <p className={classes['reward-label']}>{rewardName}</p>
-    </DynamicPaper>
+    </DynamicFontSize>
   );
 }
