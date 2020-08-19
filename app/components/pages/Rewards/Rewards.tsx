@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ipcRenderer } from 'electron';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
@@ -65,12 +65,21 @@ export default function Rewards() {
 
   // Redux State (interacts with database via IPC)
   const rewardList = useSelector(selectRewardList);
-  const currDoc = useSelector(selectRedemption);
+  const lastRedemption = useSelector(selectRedemption);
 
   // Local State
   const [validRedemption, setValidRedemption] = useState<RedemptionDoc>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [canSave, setCanSave] = useState(false);
+
+  useEffect(() => {
+    if (lastRedemption) {
+      const { redemption } = lastRedemption.data;
+      if (redemption.user.id === redemption.channel_id) {
+        setValidRedemption(lastRedemption);
+      }
+    }
+  }, [lastRedemption]);
 
   function onSortEnd({
     oldIndex,
@@ -83,18 +92,9 @@ export default function Rewards() {
     dispatch(updateRewardOrder(newOrder));
   }
 
-  function validate(doc: RedemptionDoc) {
-    if (doc.data.redemption.user.id === doc.data.redemption.channel_id) {
-      setValidRedemption(doc);
-    }
-  }
-
   function handleDialogOpen() {
     setIsDialogOpen(true);
     ipcRenderer.send('subscribe');
-    ipcRenderer.on('redemption', (_event, doc: RedemptionDoc) => {
-      validate(doc);
-    });
   }
 
   function handleDialogClose() {

@@ -10,16 +10,21 @@
  */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import install, {
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS,
+} from 'electron-devtools-installer';
 import path from 'path';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import routes from './constants/routes.json';
-import { subscribe, unsubscribe } from './components/pages/PubSub/subscriber';
 import MenuBuilder from './menu';
 import loadDb from '../db';
 
 require('dotenv').config();
 
 loadDb();
+
+app.allowRendererProcessReuse = false;
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -36,13 +41,21 @@ if (
 }
 
 const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
 
-  return Promise.all(
-    extensions.map((name) => installer.default(installer[name], forceDownload))
-  ).catch(console.log);
+  try {
+    await install(REACT_DEVELOPER_TOOLS, forceDownload);
+    console.log(`Added React Developer Tools extension`);
+  } catch (err) {
+    console.log('Error when adding React Developer Tools extension: ', err);
+  }
+
+  try {
+    await install(REDUX_DEVTOOLS, forceDownload);
+    console.log(`Added Redux DevTools extension`);
+  } catch (err) {
+    console.log('Error when adding Redux DevTools extension: ', err);
+  }
 };
 
 const createWindow = async () => {
@@ -122,28 +135,31 @@ app.on('activate', () => {
 
 let pubSubWindow: BrowserWindow | null = null;
 
-ipcMain.on('subscribe', (event) => {
+ipcMain.on('subscribe', () => {
   // Prevents multiple pubsubs from being launched.
   if (pubSubWindow) return;
 
-  pubSubWindow = new BrowserWindow({ show: false });
+  pubSubWindow = new BrowserWindow({
+    show: true,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
 
-  pubSubWindow.loadFile(`index.html#${routes.PUBSUB}`);
+  pubSubWindow.loadFile(`index.html`);
 
   pubSubWindow.once('ready-to-show', () => {
     if (!pubSubWindow) {
       throw new Error('Unable to load PubSub window');
     }
-    subscribe(event);
+    // pubSubWindow.show();
   });
 
   pubSubWindow.on('closed', () => {
-    unsubscribe();
     pubSubWindow = null;
   });
 });
 
 ipcMain.on('unsubscribe', () => {
-  unsubscribe();
   pubSubWindow?.close();
 });

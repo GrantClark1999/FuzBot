@@ -1,20 +1,14 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { ipcRenderer } from 'electron';
-import { setRedemption, clearRedemption } from './pubsubSlice';
+import { subscribe, unsubscribe } from './subscriber';
 
 export default function PubSub() {
-  const dispatch = useDispatch();
-
+  console.log('IN PUBSUB');
   useEffect(() => {
-    ipcRenderer.on('redemption', (_event, redemption) => {
-      dispatch(setRedemption(redemption));
-    });
+    subscribe();
     return () => {
-      dispatch(clearRedemption());
-      ipcRenderer.send('unsubscribe');
+      unsubscribe();
     };
-  }, [dispatch]);
+  }, []);
 
-  return <div />;
+  return <p>WELCOME TO PUBSUB</p>;
 }

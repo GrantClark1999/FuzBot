@@ -18,6 +18,10 @@ export async function fetchActiveToken(): Promise<AccessToken> {
   return (<ChannelDoc>await db.findOne({ active: true })).token;
 }
 
+ipcMain.once('fetchActiveToken', async (event) => {
+  event.returnValue = await fetchActiveToken();
+});
+
 ipcMain.once('fetchAuthData', async (event) => {
   const doc: ChannelDoc = await db.findOne({ active: true });
   if (doc) {

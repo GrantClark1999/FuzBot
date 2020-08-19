@@ -1,6 +1,6 @@
 {
   "DEFAULT": "/",
-  "REWARDS": "/channel-rewards",
+  "REWARDS": "/rewards",
   "DEVICES": "/devices",
   "ACTIONS": "/actions",
   "PUBSUB": "/pubsub"

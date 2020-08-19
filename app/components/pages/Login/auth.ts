@@ -1,6 +1,8 @@
+import { AccessToken } from 'twitch';
 import { JWKS, JWT } from 'jose';
 import { ipcRenderer } from 'electron';
 import api from 'constants/api.json';
+import { ChannelDoc } from '../../../../db/types';
 import store from '../../../store';
 import { loggingIn, loggedIn } from './authSlice';
 
@@ -91,13 +93,18 @@ async function exchangeCodeForTokens(code: string) {
 async function getLoginDoc(url: string) {
   const code = getCodeFromUrl(url);
   const tokens = await exchangeCodeForTokens(code);
+  const token = new AccessToken({
+    access_token: tokens.access_token,
+    refresh_token: tokens.refresh_token,
+    expires_in: tokens.expires_in,
+    scope: tokens.scope,
+  });
   return {
     channelId: tokens.profile?.sub || '',
     displayName: tokens.profile?.preferred_username || '',
-    accessToken: tokens.access_token,
-    refreshToken: tokens.refresh_token,
-    picture: tokens.profile?.picture || '',
-  };
+    token,
+    picture: tokens.profile?.picture || undefined,
+  } as ChannelDoc;
 }
 
 export default async function login(url: string) {
