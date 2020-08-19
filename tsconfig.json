@@ -22,14 +22,7 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "baseUrl": ".",
-    "paths": {
-      "assets/*": ["main/assets/*"],
-      "components/*": ["main/components/*"],
-      "common/*": ["main/components/common/*"],
-      "layout/*": ["main/components/layout/*"],
-      "pages/*": ["main/components/pages/*"],
-      "constants/*": ["main/constants/*"],
-    }
+    "paths": {}
   },
   "exclude": [
     "test",

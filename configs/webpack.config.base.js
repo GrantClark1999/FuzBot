@@ -4,7 +4,7 @@
 
 import path from 'path';
 import webpack from 'webpack';
-import { dependencies as externals } from '../app/visible/package.json';
+import { dependencies as externals } from '../app/package.json';
 
 export default {
   externals: [...Object.keys(externals || {})],
@@ -38,12 +38,6 @@ export default {
     alias: {
       app: path.resolve(__dirname, '../app/'),
       modules: path.resolve(__dirname, 'node_modules'),
-      assets: path.resolve(__dirname, '../app/assets/'),
-      components: path.resolve(__dirname, '../app/components/'),
-      common: path.resolve(__dirname, '../app/components/common/'),
-      layout: path.resolve(__dirname, '../app/components/layout/'),
-      pages: path.resolve(__dirname, '../app/components/pages/'),
-      constants: path.resolve(__dirname, '../app/constants/'),
     },
   },
 

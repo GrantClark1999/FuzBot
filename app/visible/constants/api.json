@@ -1,4 +1,0 @@
-{
-  "PUBSUB_URL": "https://tkzvh5gywl.execute-api.us-east-1.amazonaws.com/fuzbot-refresh-tokens",
-  "EXCHANGE_URL": "https://g6dj3os3xk.execute-api.us-east-1.amazonaws.com/fuzbot-token-exchange"
-}

@@ -1,5 +1,5 @@
 import portfinder from 'portfinder';
-import auth from 'app/visible/constants/auth.json';
+import auth from 'app/constants/auth.json';
 
 let redirect = auth.REDIRECT_URI_DEFAULT;
 
