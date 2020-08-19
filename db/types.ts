@@ -1,3 +1,4 @@
+import AccessToken from 'twitch/lib/API/AccessToken';
 import { PubSubRedemptionMessageData } from 'twitch-pubsub-client/lib/Messages/PubSubRedemptionMessage';
 
 // Document Types
@@ -13,8 +14,7 @@ export type ChannelDoc = {
   active?: boolean;
   channelId: string;
   displayName: string;
-  accessToken: string;
-  refreshToken: string;
+  token: AccessToken;
   picture?: string;
 };
 

@@ -14,15 +14,9 @@ ipcMain.on('login', async (event, doc: ChannelDoc) => {
 });
 
 // Read
-ipcMain.once('fetchActiveTokens', async (event) => {
-  const doc: ChannelDoc = await db.findOne({ active: true });
-  if (doc) {
-    event.returnValue = new AccessToken({
-      access_token: doc.accessToken,
-      refresh_token: doc.refreshToken,
-    });
-  }
-});
+export async function fetchActiveToken(): Promise<AccessToken> {
+  return (<ChannelDoc>await db.findOne({ active: true })).token;
+}
 
 ipcMain.once('fetchAuthData', async (event) => {
   const doc: ChannelDoc = await db.findOne({ active: true });
@@ -63,9 +57,11 @@ async function makeActive(doc: ChannelDoc) {
   return newDoc;
 }
 
-export default function loadChannels() {
+export function loadChannels() {
   return db.load();
 }
+
+export default db;
 
 // Read
 // function find(partialDoc: Partial<ChannelDoc>) {

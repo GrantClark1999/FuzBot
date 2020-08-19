@@ -54,25 +54,28 @@ export default function AddRewardDialog({
       open={open}
       TransitionComponent={Transition}
       onClose={handleClose}
+      aria-labelledby="add-reward-dialog-label"
       aria-describedby="add-reward-dialog-description"
     >
       <DialogContent className={classes['add-reward-dialog__flex-container']}>
         <div className={classes['add-reward-dialog__reward-element']}>
           {children}
         </div>
-        <DialogContentText
+        <div
           id="add-reward-dialog-description"
           className={classes['add-reward-dialog__description-element']}
         >
-          <Typography variant="h4">Add A Reward</Typography>
+          <Typography variant="h4" id="add-reward-dialog-label">
+            Add A Reward
+          </Typography>
           <Divider />
-          <Typography variant="body1">
+          <Typography variant="body1" id="add-reward-dialog-description">
             To add a reward, keep this menu open and redeem any reward from your
             channel. After redemption, you will see your reward on the left. If
             you wish to change the reward to add, just redeem another one, then
             click &ldquo;Save&rdquo; once you have the correct reward.
           </Typography>
-        </DialogContentText>
+        </div>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} variant="contained" color="secondary">
@@ -82,7 +85,7 @@ export default function AddRewardDialog({
           disabled={!canSave}
           onClick={handleSave}
           variant="contained"
-          color="primary"
+          color="secondary"
         >
           Save
         </Button>

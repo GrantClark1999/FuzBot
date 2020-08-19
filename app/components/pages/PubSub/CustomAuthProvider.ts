@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/lines-between-class-members */
 import AuthProvider from 'twitch/lib/Auth/AuthProvider';
-import api from 'constants/api.json';
-import auth from 'constants/auth.json';
+import api from '../../../constants/api.json';
+import auth from '../../../constants/auth.json';
 import AccessToken, { AccessTokenData } from 'twitch/lib/API/AccessToken';
 import { ipcRenderer } from 'electron';
 

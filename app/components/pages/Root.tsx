@@ -7,6 +7,7 @@ import { HashRouter, Route } from 'react-router-dom';
 import routes from 'constants/routes.json';
 import { Store } from '../../store';
 import App from './App';
+import PubSub from './PubSub/PubSub';
 
 type Props = {
   store: Store;
@@ -17,12 +18,8 @@ const Root = ({ store, history }: Props) => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <HashRouter>
-        <Route exact path={routes.PUBSUB}>
-          <></>
-        </Route>
-        <Route path={routes.DEFAULT}>
-          <App />
-        </Route>
+        <Route exact path={routes.PUBSUB} component={PubSub} />
+        <Route path={routes.DEFAULT} component={App} />
       </HashRouter>
     </ConnectedRouter>
   </Provider>

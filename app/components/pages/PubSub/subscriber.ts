@@ -1,45 +1,26 @@
-import TwitchClient, { AccessToken } from 'twitch';
+import TwitchClient from 'twitch';
 import {
   PubSubListener,
   PubSubRedemptionMessage,
   SingleUserPubSubClient,
 } from 'twitch-pubsub-client';
-import EventEmitter from 'events';
-import { ipcRenderer, remote } from 'electron';
+import { IpcMainEvent } from 'electron';
 import CustomAuthProvider from './CustomAuthProvider';
+import { fetchActiveToken } from '../../../../db/collections/channels';
 
+// Handles PubSub to Twitch
 let pubSubClient: SingleUserPubSubClient | undefined;
 let listener: PubSubListener<PubSubRedemptionMessage> | undefined;
-let totalRedemptions = 0;
 
-export async function subscribe(logAsReward?: boolean) {
-  // Emitter for counting number of redemptions
-  const emitter = new EventEmitter();
-
-  emitter.on('redeemed', () => {
-    totalRedemptions += 1;
-    // Log only one redemption when redeeming to log rewards
-    if (logAsReward) {
-      unsubscribe();
-      // Close the hidden window when not subscribing
-      remote.getCurrentWindow().close();
-    }
-  });
-
-  const tokens = <AccessToken>ipcRenderer.sendSync('fetchActiveTokens');
-  const authProvider = new CustomAuthProvider(tokens);
+export async function subscribe(event: IpcMainEvent) {
+  const token = await fetchActiveToken();
+  const authProvider = new CustomAuthProvider(token);
   const twitchClient = new TwitchClient({ authProvider });
   pubSubClient = new SingleUserPubSubClient({ twitchClient });
 
   listener = await pubSubClient.onRedemption((message) => {
-    // Call function to handle each channel reward
     const data = getData(message);
-    if (logAsReward) {
-      ipcRenderer.send('logReward', data);
-    } else {
-      ipcRenderer.send('logRedemption', data);
-    }
-    emitter.emit('redeemed');
+    event.reply('redemption', data);
   });
 }
 
@@ -48,9 +29,6 @@ export function unsubscribe() {
   // Reset variables
   pubSubClient = undefined;
   listener = undefined;
-  const sessionTotal = totalRedemptions;
-  totalRedemptions = 0;
-  return sessionTotal;
 }
 
 /*

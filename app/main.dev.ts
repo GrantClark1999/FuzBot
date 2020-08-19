@@ -11,7 +11,9 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
+import routes from './constants/routes.json';
+import { subscribe, unsubscribe } from './components/pages/PubSub/subscriber';
 import MenuBuilder from './menu';
 import loadDb from '../db';
 
@@ -112,4 +114,36 @@ app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
+});
+
+/**
+ * PubSub Window
+ */
+
+let pubSubWindow: BrowserWindow | null = null;
+
+ipcMain.on('subscribe', (event) => {
+  // Prevents multiple pubsubs from being launched.
+  if (pubSubWindow) return;
+
+  pubSubWindow = new BrowserWindow({ show: false });
+
+  pubSubWindow.loadFile(`index.html#${routes.PUBSUB}`);
+
+  pubSubWindow.once('ready-to-show', () => {
+    if (!pubSubWindow) {
+      throw new Error('Unable to load PubSub window');
+    }
+    subscribe(event);
+  });
+
+  pubSubWindow.on('closed', () => {
+    unsubscribe();
+    pubSubWindow = null;
+  });
+});
+
+ipcMain.on('unsubscribe', () => {
+  unsubscribe();
+  pubSubWindow?.close();
 });

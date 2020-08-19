@@ -6,13 +6,13 @@ const db = createCollection('rewards.db');
 db.ensureIndex({ fieldName: 'rewardId', unique: true });
 
 // Create / Update
-ipcMain.on('logRedemption', async (_event, doc: RedemptionDoc) => {
-  const rewardDoc = translate(doc, await db.count({}));
-  update(rewardDoc);
+ipcMain.on('logReward', (_event, doc: RewardDoc) => {
+  update(doc);
 });
 
-ipcMain.on('logReward', async (_event, doc: RewardDoc) => {
-  update(doc);
+ipcMain.on('logRewardFromRedemption', async (_event, doc: RedemptionDoc) => {
+  const rewardDoc = translate(doc, await db.count({}));
+  update(rewardDoc);
 });
 
 ipcMain.on('updateRewardOrder', (_event, docs: RewardDoc[]) => {
@@ -38,8 +38,8 @@ function update(doc: RewardDoc) {
   return db.update({ rewardId }, doc, { upsert: true });
 }
 
-function translate(message: RedemptionDoc, position: number): RewardDoc {
-  const { reward } = message.data.redemption;
+function translate(doc: RedemptionDoc, position: number): RewardDoc {
+  const { reward } = doc.data.redemption;
   return {
     position,
     rewardId: reward.id,
