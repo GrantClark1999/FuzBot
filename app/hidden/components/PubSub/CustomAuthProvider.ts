@@ -2,8 +2,8 @@ import { ipcRenderer } from 'electron';
 /* eslint-disable @typescript-eslint/lines-between-class-members */
 import AuthProvider from 'twitch/lib/Auth/AuthProvider';
 import AccessToken, { AccessTokenData } from 'twitch/lib/API/AccessToken';
-import api from '../../../constants/api.json';
-import auth from '../../../constants/auth.json';
+import api from '../../../visible/constants/api.json';
+import auth from '../../../visible/constants/auth.json';
 
 function formatResponse(tokenData: AccessTokenData) {
   return new AccessToken(tokenData);

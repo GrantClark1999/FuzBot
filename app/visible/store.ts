@@ -4,7 +4,7 @@ import { createHashHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import { createLogger } from 'redux-logger';
 import { ThunkAction } from 'redux-thunk';
-import { initAuthData } from 'components/pages/Login/authSlice';
+import { initAuthData } from 'app/visible/components/pages/Login/authSlice';
 import { initRewardData } from './components/pages/Rewards/rewardsSlice';
 import createRootReducer from './rootReducer';
 

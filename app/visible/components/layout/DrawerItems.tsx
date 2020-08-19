@@ -5,7 +5,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import RedeemIcon from '@material-ui/icons/Redeem';
 import WifiIcon from '@material-ui/icons/Wifi';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import routes from 'constants/routes.json';
+import routes from 'app/visible/constants/routes.json';
 import classes from './DrawerItems.css';
 
 const items = [

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // eslint-disable-next-line import/no-cycle
-import { RootState } from '../../../store';
+import { RootState } from '../../../visible/store';
 import { RedemptionDoc } from '../../../../db/types';
 
 type Payload<T> = {

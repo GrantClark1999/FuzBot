@@ -23,16 +23,23 @@ export default merge(baseConfig, {
 
   target: process.env.E2E_BUILD ? 'electron-renderer' : 'electron-preload',
 
-  entry: [
-    'core-js',
-    'regenerator-runtime/runtime',
-    path.join(__dirname, '..', 'app/app.tsx'),
-  ],
+  entry: {
+    visible: [
+      'core-js',
+      'regenerator-runtime/runtime',
+      path.join(__dirname, '..', 'app/visible/index.tsx'),
+    ],
+    hidden: [
+      'core-js',
+      'regenerator-runtime/runtime',
+      path.join(__dirname, '..', 'app/hidden/index.tsx'),
+    ],
+  },
 
   output: {
     path: path.join(__dirname, '..', 'app/dist'),
-    publicPath: './dist/',
-    filename: 'renderer.prod.js',
+    publicPath: '../dist/',
+    filename: '[name].renderer.prod.js',
   },
 
   module: {

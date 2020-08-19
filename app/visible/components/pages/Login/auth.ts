@@ -1,8 +1,8 @@
 import { AccessToken } from 'twitch';
 import { JWKS, JWT } from 'jose';
 import { ipcRenderer } from 'electron';
-import api from 'constants/api.json';
-import { ChannelDoc } from '../../../../db/types';
+import api from 'app/visible/constants/api.json';
+import { ChannelDoc } from '../../../../../db/types';
 import store from '../../../store';
 import { loggingIn, loggedIn } from './authSlice';
 

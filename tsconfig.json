@@ -23,20 +23,20 @@
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
-      "assets/*": ["app/assets/*"],
-      "components/*": ["app/components/*"],
-      "common/*": ["app/components/common/*"],
-      "layout/*": ["app/components/layout/*"],
-      "pages/*": ["app/components/pages/*"],
-      "constants/*": ["app/constants/*"],
+      "assets/*": ["main/assets/*"],
+      "components/*": ["main/components/*"],
+      "common/*": ["main/components/common/*"],
+      "layout/*": ["main/components/layout/*"],
+      "pages/*": ["main/components/pages/*"],
+      "constants/*": ["main/constants/*"],
     }
   },
   "exclude": [
     "test",
     "release",
-    "app/main.prod.js",
-    "app/renderer.prod.js",
-    "app/dist",
+    "main/main.prod.js",
+    "main/renderer.prod.js",
+    "main/dist",
     "dll"
   ]
 }

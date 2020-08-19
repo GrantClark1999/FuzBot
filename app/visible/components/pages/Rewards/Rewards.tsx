@@ -4,12 +4,12 @@ import { ipcRenderer } from 'electron';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { Button } from '@material-ui/core';
-import { RewardDoc, RedemptionDoc } from '../../../../db/types';
+import { RewardDoc, RedemptionDoc } from '../../../../../db/types';
 import Reward from './Reward/Reward';
 import { selectRewardList, addReward, updateRewardOrder } from './rewardsSlice';
 import AddRewardDialog from './AddRewardDialog/AddRewardDialog';
 import classes from './Rewards.css';
-import { selectRedemption } from '../PubSub/pubsubSlice';
+import { selectRedemption } from '../../../../hidden/components/PubSub/pubsubSlice';
 
 const SortableRewardItem = SortableElement(
   ({ reward }: { reward: RewardDoc }) => {

@@ -4,13 +4,9 @@ import chalk from 'chalk';
 import fs from 'fs';
 
 const mainPath = path.join(__dirname, '..', 'app', 'main.prod.js');
-const rendererPath = path.join(
-  __dirname,
-  '..',
-  'app',
-  'dist',
-  'renderer.prod.js'
-);
+
+const visibleRendererPath = getRendererPath('visible');
+const hiddenRendererPath = getRendererPath('hidden');
 
 if (!fs.existsSync(mainPath)) {
   throw new Error(
@@ -20,10 +16,29 @@ if (!fs.existsSync(mainPath)) {
   );
 }
 
-if (!fs.existsSync(rendererPath)) {
+if (!fs.existsSync(visibleRendererPath)) {
   throw new Error(
     chalk.whiteBright.bgRed.bold(
-      'The renderer process is not built yet. Build it by running "yarn build-renderer"'
+      'The visible renderer process is not built yet. Build it by running "yarn build-renderer"'
     )
+  );
+}
+
+if (!fs.existsSync(hiddenRendererPath)) {
+  throw new Error(
+    chalk.whiteBright.bgRed.bold(
+      'The hidden renderer process is not built yet. Build it by running "yarn build-renderer"'
+    )
+  );
+}
+
+function getRendererPath(name) {
+  return path.join(
+    __dirname,
+    '..',
+    '..',
+    'app',
+    'dist',
+    `${name}.renderer.prod.js`
   );
 }

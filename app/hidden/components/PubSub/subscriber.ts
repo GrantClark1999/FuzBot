@@ -6,7 +6,7 @@ import {
 } from 'twitch-pubsub-client';
 import { ipcRenderer } from 'electron';
 import CustomAuthProvider from './CustomAuthProvider';
-import store from '../../../store';
+import store from '../../../visible/store';
 import { setRedemption, clearRedemption } from './pubsubSlice';
 
 // Handles PubSub to Twitch

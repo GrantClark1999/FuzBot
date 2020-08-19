@@ -1,8 +1,8 @@
 import React from 'react';
 import { Paper } from '@material-ui/core';
-import DynamicFontSize from 'components/common/DynamicFontSize/DynamicFontSize';
-import SquarePaper from 'components/common/SquarePaper/SquarePaper';
-import { RewardDoc } from '../../../../../db/types';
+import DynamicFontSize from 'app/visible/components/common/DynamicFontSize/DynamicFontSize';
+import SquarePaper from 'app/visible/components/common/SquarePaper/SquarePaper';
+import { RewardDoc } from '../../../../../../db/types';
 import classes from './Reward.css';
 
 type RewardProps = Omit<

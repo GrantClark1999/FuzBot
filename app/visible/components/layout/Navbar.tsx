@@ -11,10 +11,10 @@ import {
   useTheme,
   Theme,
 } from '@material-ui/core';
-import { DRAWER_WIDTH } from 'constants/ui.json';
+import { DRAWER_WIDTH } from 'app/visible/constants/ui.json';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useSelector } from 'react-redux';
-import { selectAuthInfo } from 'pages/Login/authSlice';
+import { selectAuthInfo } from 'app/visible/components/pages/Login/authSlice';
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({

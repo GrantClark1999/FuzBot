@@ -16,7 +16,7 @@
     "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
     "build-e2e": "cross-env E2E_BUILD=true yarn build",
     "build-main": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.main.prod.babel.js --colors",
-    "build-renderer": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.renderer.prod.babel.js --colors",
+    "build-renderer": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.renderer.prod.babel.js --colors --display-chunks --display-modules",
     "dev": "cross-env START_HOT=1 node -r @babel/register ./scripts/CheckPortInUse.js && cross-env START_HOT=1 yarn start-renderer-dev",
     "dev-upgrade": "cross-env UPGRADE_EXTENSIONS=1 yarn dev",
     "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
@@ -44,7 +44,8 @@
     "files": [
       "dist/",
       "node_modules/",
-      "index.html",
+      "app/visible/app.html",
+      "app/hidden/app.html",
       "main.prod.js",
       "main.prod.js.map",
       "package.json"

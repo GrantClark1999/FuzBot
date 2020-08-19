@@ -16,8 +16,7 @@ import install, {
 } from 'electron-devtools-installer';
 import path from 'path';
 import { app, BrowserWindow, ipcMain } from 'electron';
-import routes from './constants/routes.json';
-import MenuBuilder from './menu';
+import MenuBuilder from './visible/menu';
 import loadDb from '../db';
 
 require('dotenv').config();
@@ -26,7 +25,7 @@ loadDb();
 
 app.allowRendererProcessReuse = false;
 
-let mainWindow: BrowserWindow | null = null;
+let visibleWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -66,7 +65,7 @@ const createWindow = async () => {
     await installExtensions();
   }
 
-  mainWindow = new BrowserWindow({
+  visibleWindow = new BrowserWindow({
     show: false,
     width: 1024,
     height: 728,
@@ -78,29 +77,29 @@ const createWindow = async () => {
             nodeIntegration: true,
           }
         : {
-            preload: path.join(__dirname, 'dist/renderer.prod.js'),
+            preload: path.join(__dirname, 'dist/visible.renderer.prod.js'),
           },
   });
 
-  mainWindow.loadFile('index.html');
+  visibleWindow.loadURL(`file://${__dirname}/visible/app.html`);
 
-  mainWindow.once('ready-to-show', () => {
-    if (!mainWindow) {
+  visibleWindow.once('ready-to-show', () => {
+    if (!visibleWindow) {
       throw new Error('"mainWindow" is not defined');
     }
     if (process.env.START_MINIMIZED) {
-      mainWindow.minimize();
+      visibleWindow.minimize();
     } else {
-      mainWindow.show();
-      mainWindow.focus();
+      visibleWindow.show();
+      visibleWindow.focus();
     }
   });
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
+  visibleWindow.on('closed', () => {
+    visibleWindow = null;
   });
 
-  const menuBuilder = new MenuBuilder(mainWindow);
+  const menuBuilder = new MenuBuilder(visibleWindow);
   menuBuilder.buildMenu();
 };
 
@@ -126,40 +125,48 @@ if (process.env.E2E_BUILD === 'true') {
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) createWindow();
+  if (visibleWindow === null) createWindow();
 });
 
 /**
  * PubSub Window
  */
 
-let pubSubWindow: BrowserWindow | null = null;
+let hiddenWindow: BrowserWindow | null = null;
 
 ipcMain.on('subscribe', () => {
   // Prevents multiple pubsubs from being launched.
-  if (pubSubWindow) return;
+  if (hiddenWindow) return;
 
-  pubSubWindow = new BrowserWindow({
-    show: true,
-    webPreferences: {
-      nodeIntegration: true,
-    },
+  hiddenWindow = new BrowserWindow({
+    show: false,
+    webPreferences:
+      (process.env.NODE_ENV === 'development' ||
+        process.env.E2E_BUILD === 'true') &&
+      process.env.ERB_SECURE !== 'true'
+        ? {
+            nodeIntegration: true,
+          }
+        : {
+            preload: path.join(__dirname, 'dist/hidden.renderer.prod.js'),
+          },
   });
 
-  pubSubWindow.loadFile(`index.html`);
+  hiddenWindow.loadURL(`file://${__dirname}/hidden/app.html`);
 
-  pubSubWindow.once('ready-to-show', () => {
-    if (!pubSubWindow) {
+  hiddenWindow.once('ready-to-show', () => {
+    if (!hiddenWindow) {
       throw new Error('Unable to load PubSub window');
     }
-    // pubSubWindow.show();
+    // TODO: REMOVE LATER ONCE FUNCTIONAL
+    hiddenWindow.show();
   });
 
-  pubSubWindow.on('closed', () => {
-    pubSubWindow = null;
+  hiddenWindow.on('closed', () => {
+    hiddenWindow = null;
   });
 });
 
 ipcMain.on('unsubscribe', () => {
-  pubSubWindow?.close();
+  hiddenWindow?.close();
 });

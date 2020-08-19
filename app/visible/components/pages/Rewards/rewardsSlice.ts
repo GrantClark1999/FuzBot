@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { ipcRenderer } from 'electron';
 // eslint-disable-next-line import/no-cycle
 import { AppThunk, RootState } from '../../../store';
-import { RedemptionDoc, RewardDoc } from '../../../../db/types';
+import { RedemptionDoc, RewardDoc } from '../../../../../db/types';
 
 type Payload<T> = {
   payload: T;

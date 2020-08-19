@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { DRAWER_WIDTH } from 'constants/ui.json';
+import { DRAWER_WIDTH } from 'app/visible/constants/ui.json';
 import DrawerItems from './DrawerItems';
 
 const useStyles = makeStyles((theme: Theme) => {

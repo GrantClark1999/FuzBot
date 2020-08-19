@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { subscribe, unsubscribe } from './subscriber';
 
 export default function PubSub() {
-  console.log('IN PUBSUB');
+  console.log('IN PUBSUB COMPONENT');
   useEffect(() => {
     subscribe();
     return () => {
