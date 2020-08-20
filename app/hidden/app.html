@@ -35,9 +35,9 @@
         if (process.env.START_HOT) {
           // Dynamically insert the bundled app script in the renderer process
           const port = process.env.PORT || 1212;
-          scripts.push(`http://localhost:${port}/dist/visible.renderer.dev.js`);
+          scripts.push(`http://localhost:${port}/dist/hidden.renderer.dev.js`);
         } else {
-          scripts.push('./dist/visible.renderer.prod.js');
+          scripts.push('./dist/hidden.renderer.prod.js');
         }
 
         if (scripts.length) {

@@ -57,7 +57,7 @@ const installExtensions = async () => {
   }
 };
 
-const createWindow = async () => {
+const createVisibleWindow = async () => {
   if (
     process.env.NODE_ENV === 'development' ||
     process.env.DEBUG_PROD === 'true'
@@ -97,6 +97,7 @@ const createWindow = async () => {
 
   visibleWindow.on('closed', () => {
     visibleWindow = null;
+    app.quit();
   });
 
   const menuBuilder = new MenuBuilder(visibleWindow);
@@ -117,15 +118,15 @@ app.on('window-all-closed', () => {
 
 if (process.env.E2E_BUILD === 'true') {
   // eslint-disable-next-line promise/catch-or-return
-  app.whenReady().then(createWindow);
+  app.whenReady().then(createVisibleWindow);
 } else {
-  app.on('ready', createWindow);
+  app.on('ready', createVisibleWindow);
 }
 
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (visibleWindow === null) createWindow();
+  if (visibleWindow === null) createVisibleWindow();
 });
 
 /**
@@ -134,22 +135,17 @@ app.on('activate', () => {
 
 let hiddenWindow: BrowserWindow | null = null;
 
-ipcMain.on('subscribe', () => {
-  // Prevents multiple pubsubs from being launched.
+function createPubSubWindow() {
+  // Prevents multiple login windows
   if (hiddenWindow) return;
+
+  console.log('Creating new window');
 
   hiddenWindow = new BrowserWindow({
     show: false,
-    webPreferences:
-      (process.env.NODE_ENV === 'development' ||
-        process.env.E2E_BUILD === 'true') &&
-      process.env.ERB_SECURE !== 'true'
-        ? {
-            nodeIntegration: true,
-          }
-        : {
-            preload: path.join(__dirname, 'dist/hidden.renderer.prod.js'),
-          },
+    webPreferences: {
+      nodeIntegration: true,
+    },
   });
 
   hiddenWindow.loadURL(`file://${__dirname}/hidden/app.html`);
@@ -162,11 +158,21 @@ ipcMain.on('subscribe', () => {
     hiddenWindow.show();
   });
 
-  hiddenWindow.on('closed', () => {
+  hiddenWindow.on('close', () => {
     hiddenWindow = null;
   });
+}
+
+ipcMain.on('subscribe', () => {
+  console.log(`Current PubSub Window: ${hiddenWindow}`);
+  console.log('Create PubSub Window');
+  createPubSubWindow();
 });
 
 ipcMain.on('unsubscribe', () => {
-  hiddenWindow?.close();
+  hiddenWindow?.webContents.send('cleanupPubSub');
+});
+
+ipcMain.on('newRedemption', (_event, redemption) => {
+  visibleWindow?.webContents.send('redemption', redemption);
 });

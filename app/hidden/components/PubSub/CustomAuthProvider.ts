@@ -5,17 +5,15 @@ import AccessToken, { AccessTokenData } from 'twitch/lib/API/AccessToken';
 import api from 'app/constants/api.json';
 import auth from 'app/constants/auth.json';
 
-function formatResponse(tokenData: AccessTokenData) {
-  return new AccessToken(tokenData);
-}
-
 export default class CustomAuthProvider implements AuthProvider {
   public readonly clientId = auth.CLIENT_ID;
   public readonly currentScopes = auth.LOGIN.SCOPES;
   private token: AccessToken;
+  private tokenData: AccessTokenData;
 
-  constructor(token: AccessToken) {
-    this.token = token;
+  constructor(tokenData: AccessTokenData) {
+    this.tokenData = tokenData;
+    this.token = new AccessToken(tokenData);
   }
 
   public async getAccessToken() {
@@ -29,24 +27,24 @@ export default class CustomAuthProvider implements AuthProvider {
 
   /** @private */
   async refresh() {
-    const response = await (
-      await fetch(api.PUBSUB_URL, {
+    const newTokenData = await (
+      await fetch(api.REFRESH_URL, {
         method: 'POST',
         body: JSON.stringify({
-          refresh_token: this.token.refreshToken,
+          refreshToken: this.tokenData.refresh_token,
         }),
       })
     ).json();
-    const tokenData = formatResponse(response);
-    this.setAccessToken(tokenData);
-    return tokenData;
+    this.setAccessToken(newTokenData);
+    this.tokenData = newTokenData;
+    // Update database whenever new token is stored locally
+    ipcRenderer.send('updateActive', newTokenData);
+    return this.token;
   }
 
   /** @private */
   setAccessToken(token: AccessToken) {
     // Update locally stored token to minimize database accessing
     this.token = token;
-    // Update database whenever new token is stored locally
-    ipcRenderer.send('updateActive', token);
   }
 }

@@ -22,7 +22,7 @@ const rewardsSlice = createSlice({
       const compare = (a: RewardDoc, b: RewardDoc) => {
         if (a.position < b.position) return -1;
         if (a.position > b.position) return 1;
-        throw new Error('Stored Reward Docs have identical positions!');
+        return 0;
       };
       payload.sort(compare);
       state.rewardList = payload;
@@ -30,7 +30,7 @@ const rewardsSlice = createSlice({
     addReward: (state, { payload }: Payload<RedemptionDoc>) => {
       const reward = translate(payload, state.rewardList.length);
       state.rewardList.push(reward);
-      ipcRenderer.send('logReward', payload);
+      ipcRenderer.send('logReward', reward);
     },
     removeReward: (state, { payload }: Payload<RewardDoc>) => {
       const index = state.rewardList.indexOf(payload);

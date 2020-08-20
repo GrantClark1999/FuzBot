@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import AccessToken from 'twitch/lib/API/AccessToken';
+import { AccessTokenData } from 'twitch/lib/API/AccessToken';
 import { ChannelDoc } from '../types';
 import createCollection from '../helpers/createCollection';
 
@@ -14,11 +14,11 @@ ipcMain.on('login', async (event, doc: ChannelDoc) => {
 });
 
 // Read
-export async function fetchActiveToken(): Promise<AccessToken> {
+export async function fetchActiveToken(): Promise<AccessTokenData> {
   return (<ChannelDoc>await db.findOne({ active: true })).token;
 }
 
-ipcMain.once('fetchActiveToken', async (event) => {
+ipcMain.on('fetchActiveToken', async (event) => {
   event.returnValue = await fetchActiveToken();
 });
 
@@ -33,7 +33,7 @@ ipcMain.once('fetchAuthData', async (event) => {
 });
 
 // Update
-ipcMain.on('updateActive', (_event, token: AccessToken) => {
+ipcMain.on('updateActive', (_event, token: AccessTokenData) => {
   db.update({ active: true }, { $set: token });
 });
 

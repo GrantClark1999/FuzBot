@@ -1,8 +1,6 @@
-import { BrowserWindow as Window } from 'electron';
+import { BrowserWindow as Window, remote } from 'electron';
 import login from './auth';
 import { getLoginUrl, getRedirectUri } from './url';
-
-const { remote } = require('electron');
 
 let loginWindow: Window | null = null;
 

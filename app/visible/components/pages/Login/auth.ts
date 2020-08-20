@@ -93,12 +93,12 @@ async function exchangeCodeForTokens(code: string) {
 async function getLoginDoc(url: string) {
   const code = getCodeFromUrl(url);
   const tokens = await exchangeCodeForTokens(code);
-  const token = new AccessToken({
+  const token = {
     access_token: tokens.access_token,
     refresh_token: tokens.refresh_token,
     expires_in: tokens.expires_in,
     scope: tokens.scope,
-  });
+  };
   return {
     channelId: tokens.profile?.sub || '',
     displayName: tokens.profile?.preferred_username || '',

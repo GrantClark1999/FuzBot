@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ipcRenderer } from 'electron';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
@@ -9,7 +9,6 @@ import Reward from './Reward/Reward';
 import { selectRewardList, addReward, updateRewardOrder } from './rewardsSlice';
 import AddRewardDialog from './AddRewardDialog/AddRewardDialog';
 import classes from './Rewards.css';
-import { selectRedemption } from '../../../../hidden/components/PubSub/pubsubSlice';
 
 const SortableRewardItem = SortableElement(
   ({ reward }: { reward: RewardDoc }) => {
@@ -65,21 +64,11 @@ export default function Rewards() {
 
   // Redux State (interacts with database via IPC)
   const rewardList = useSelector(selectRewardList);
-  const lastRedemption = useSelector(selectRedemption);
 
   // Local State
   const [validRedemption, setValidRedemption] = useState<RedemptionDoc>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [canSave, setCanSave] = useState(false);
-
-  useEffect(() => {
-    if (lastRedemption) {
-      const { redemption } = lastRedemption.data;
-      if (redemption.user.id === redemption.channel_id) {
-        setValidRedemption(lastRedemption);
-      }
-    }
-  }, [lastRedemption]);
 
   function onSortEnd({
     oldIndex,
@@ -95,6 +84,14 @@ export default function Rewards() {
   function handleDialogOpen() {
     setIsDialogOpen(true);
     ipcRenderer.send('subscribe');
+    ipcRenderer.on('redemption', (_event, lastRedemption: RedemptionDoc) => {
+      console.log(lastRedemption);
+      const { redemption } = lastRedemption.data;
+      if (redemption.user.id === redemption.channel_id) {
+        setValidRedemption(lastRedemption);
+        setCanSave(true);
+      }
+    });
   }
 
   function handleDialogClose() {
@@ -120,6 +117,7 @@ export default function Rewards() {
         rewardCost={reward.cost}
         rewardImage={reward.image?.url_4x ?? reward.default_image.url_4x}
         rewardBgColor={reward.background_color}
+        pointsImage="https://static-cdn.jtvnw.net/channel-points-icons/82521150/a1d00694-ee60-43ad-a336-42f68730d88f/icon-4.png"
       />
     );
   }

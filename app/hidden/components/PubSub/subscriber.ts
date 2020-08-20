@@ -6,32 +6,30 @@ import {
 } from 'twitch-pubsub-client';
 import { ipcRenderer } from 'electron';
 import CustomAuthProvider from './CustomAuthProvider';
-import store from '../../../visible/store';
-import { setRedemption, clearRedemption } from './pubsubSlice';
 
 // Handles PubSub to Twitch
+let twitchClient: TwitchClient | undefined;
 let pubSubClient: SingleUserPubSubClient | undefined;
-let listener: PubSubListener<PubSubRedemptionMessage> | undefined;
+let listener: Promise<PubSubListener<PubSubRedemptionMessage>> | undefined;
 
-export async function subscribe() {
-  console.log('SUBSCRIBING');
+export function subscribe() {
   const token = ipcRenderer.sendSync('fetchActiveToken');
   const authProvider = new CustomAuthProvider(token);
-  const twitchClient = new TwitchClient({ authProvider });
+  twitchClient = new TwitchClient({ authProvider });
   pubSubClient = new SingleUserPubSubClient({ twitchClient, logLevel: 5 });
 
-  listener = await pubSubClient.onRedemption((message) => {
+  listener = pubSubClient.onRedemption((message) => {
     const data = getData(message);
-    store.dispatch(setRedemption(data));
+    ipcRenderer.send('redemption', data);
   });
 }
 
-export function unsubscribe() {
-  store.dispatch(clearRedemption());
-  if (listener) pubSubClient?.removeListener(listener);
+export async function unsubscribe() {
+  (await listener)?.remove();
   // Reset variables
+  twitchClient = undefined;
   pubSubClient = undefined;
-  listener = undefined;
+  ipcRenderer.send('unsubscribed');
 }
 
 /*
