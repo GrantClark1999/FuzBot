@@ -34,7 +34,7 @@ ipcMain.once('fetchAuthData', async (event) => {
 
 // Update
 ipcMain.on('updateActive', (_event, token: AccessTokenData) => {
-  db.update({ active: true }, { $set: token });
+  db.update({ active: true }, { $set: { token } });
 });
 
 // Helpers
