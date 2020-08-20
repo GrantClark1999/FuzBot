@@ -47,6 +47,4 @@ function translate(message: RedemptionDoc): UserDoc {
   };
 }
 
-export default function loadUsers() {
-  return db.load();
-}
+export default db;

@@ -26,9 +26,9 @@ ipcMain.once('fetchAuthData', async (event) => {
   const doc: ChannelDoc = await db.findOne({ active: true });
   if (doc) {
     const { displayName, picture } = doc;
-    event.returnValue = { displayName, picture };
+    event.reply('fetchedAuthData', { displayName, picture });
   } else {
-    event.returnValue = {};
+    event.reply('fetchedAuthData', undefined);
   }
 });
 
@@ -59,10 +59,6 @@ async function makeActive(doc: ChannelDoc) {
     returnUpdatedDocs: true,
   });
   return newDoc;
-}
-
-export function loadChannels() {
-  return db.load();
 }
 
 export default db;

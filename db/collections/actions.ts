@@ -3,6 +3,8 @@ import createCollection from '../helpers/createCollection';
 
 const db = createCollection('actions.db');
 
-export default function loadActions() {
-  return db.load();
+export function loadActions() {
+  db.load();
 }
+
+export default db;

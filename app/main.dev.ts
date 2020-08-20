@@ -17,11 +17,11 @@ import install, {
 import path from 'path';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import MenuBuilder from './visible/menu';
-import loadDb from '../db';
-
-require('dotenv').config();
+import { loadDb } from '../db';
 
 loadDb();
+
+require('dotenv').config();
 
 app.allowRendererProcessReuse = false;
 

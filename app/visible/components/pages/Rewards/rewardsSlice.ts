@@ -10,22 +10,27 @@ type Payload<T> = {
 
 type StateType = {
   rewardList: RewardDoc[];
+  pointsImage: string | undefined;
 };
 
 const rewardsSlice = createSlice({
   name: 'rewards',
   initialState: {
     rewardList: [],
+    pointsImage: undefined,
   } as StateType,
   reducers: {
-    setInitialState: (state, { payload }: Payload<RewardDoc[]>) => {
+    setInitialRewardList: (state, { payload }: Payload<RewardDoc[]>) => {
       const compare = (a: RewardDoc, b: RewardDoc) => {
         if (a.position < b.position) return -1;
         if (a.position > b.position) return 1;
         return 0;
       };
-      payload.sort(compare);
-      state.rewardList = payload;
+      const sortedRewards = payload.sort(compare);
+      state.rewardList = sortedRewards;
+    },
+    setInitialPointsImage: (state, { payload }: Payload<string>) => {
+      state.pointsImage = payload;
     },
     addReward: (state, { payload }: Payload<RedemptionDoc>) => {
       const reward = translate(payload, state.rewardList.length);
@@ -48,27 +53,41 @@ const rewardsSlice = createSlice({
       state.rewardList = rewardsWithCorrectPos;
       ipcRenderer.send('updateRewardOrder', rewardsWithCorrectPos);
     },
+    setPointsImage: (state, { payload }: Payload<string>) => {
+      state.pointsImage = payload;
+      ipcRenderer.send('setPointsImage', payload);
+    },
   },
 });
 
 export const {
-  setInitialState,
+  setInitialRewardList,
+  setInitialPointsImage,
   addReward,
   removeReward,
   updateRewardOrder,
+  setPointsImage,
 } = rewardsSlice.actions;
 
 export const initRewardData = (): AppThunk => async (dispatch) => {
-  const rewardData = <RewardDoc[]>ipcRenderer.sendSync('fetchAllRewards');
-  if (rewardData) {
-    dispatch(setInitialState(rewardData));
-  }
+  ipcRenderer.send('fetchRewardList');
+  ipcRenderer.send('fetchPointsImage');
+  ipcRenderer.on('fetchedRewardList', (_event, rewardList) => {
+    if (rewardList) dispatch(setInitialRewardList(rewardList));
+  });
+  ipcRenderer.on('fetchedPointsImage', (_event, pointsImage) => {
+    if (pointsImage) dispatch(setInitialPointsImage(pointsImage));
+  });
 };
 
 // Selector
 
 export const selectRewardList = (state: RootState) => {
   return state.rewards.rewardList;
+};
+
+export const selectPointsImage = (state: RootState) => {
+  return state.rewards.pointsImage;
 };
 
 // Helper Function

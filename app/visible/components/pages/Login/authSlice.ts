@@ -58,10 +58,10 @@ export const {
 } = authSlice.actions;
 
 export const initAuthData = (): AppThunk => async (dispatch) => {
-  const authData = <AuthData>ipcRenderer.sendSync('fetchAuthData');
-  if (authData) {
-    dispatch(setInitialState(authData));
-  }
+  ipcRenderer.send('fetchAuthData');
+  ipcRenderer.on('fetchedAuthData', (_event, authData) => {
+    if (authData) dispatch(setInitialState(authData));
+  });
 };
 
 // Selectors

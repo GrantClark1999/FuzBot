@@ -1,15 +1,28 @@
-import loadActions from './collections/actions';
-import { loadChannels } from './collections/channels';
-import loadDevices from './collections/devices';
-import loadRedemptions from './collections/redemptions';
-import loadRewards from './collections/rewards';
-import loadUsers from './collections/users';
+import actions from './collections/actions';
+import channels from './collections/channels';
+import devices from './collections/devices';
+import points from './collections/points';
+import redemptions from './collections/redemptions';
+import rewards from './collections/rewards';
+import users from './collections/users';
 
-export default function load() {
-  loadActions();
-  loadChannels();
-  loadDevices();
-  loadRedemptions();
-  loadRewards();
-  loadUsers();
+export function loadDb() {
+  actions.load();
+  channels.load();
+  devices.load();
+  points.load();
+  redemptions.load();
+  rewards.load();
+  users.load();
 }
+
+export default {
+  loadDb,
+  actions,
+  channels,
+  devices,
+  points,
+  redemptions,
+  rewards,
+  users,
+};

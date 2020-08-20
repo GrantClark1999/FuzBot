@@ -29,6 +29,7 @@
   width: calc((12 / 11) * 1em);
   height: calc((12 / 11) * 1em);
   margin-right: 0.5em;
+  fill: #fff;
 }
 
 .reward-icon__cost__text {

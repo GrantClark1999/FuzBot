@@ -37,9 +37,7 @@ ipcMain.on('deleteOldRedemptions', (_event, days: number) => {
   db.remove({ 'data.timestamp': { $lte: oldestDate } }, { multi: true });
 });
 
-export default function loadRedemptions() {
-  return db.load();
-}
+export default db;
 
 // // Create
 // function insert(doc: RedemptionDoc) {

@@ -25,6 +25,10 @@ export type DeviceDoc = {
   host: string;
 };
 
+export type PointsDoc = {
+  pointsImage: string;
+};
+
 export type RedemptionDoc = PubSubRedemptionMessageData;
 
 export type RewardDoc = {

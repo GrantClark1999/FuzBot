@@ -23,13 +23,10 @@ ipcMain.on('updateRewardOrder', (_event, docs: RewardDoc[]) => {
   }
 });
 
-ipcMain.on('updatePointsImage', (_event, pointsImage: string) => {
-  db.update({}, { $set: { pointsImage } });
-});
-
 // Read
-ipcMain.once('fetchAllRewards', async (event) => {
-  event.returnValue = await db.find({});
+ipcMain.once('fetchRewardList', async (event) => {
+  const docs = await db.find({});
+  event.reply('fetchedRewardsList', docs);
 });
 
 // Helper Functions
@@ -51,9 +48,7 @@ function translate(doc: RedemptionDoc, position: number): RewardDoc {
   };
 }
 
-export default function loadRewards() {
-  return db.load();
-}
+export default db;
 
 // Read
 // function find(rewardId: string) {
