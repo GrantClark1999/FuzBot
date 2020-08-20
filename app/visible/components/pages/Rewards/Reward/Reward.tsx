@@ -37,7 +37,7 @@ export default function Reward({
 }: RewardProps) {
   const pointsImage = useSelector(selectPointsImage);
   return (
-    <DynamicFontSize ratio={11 / 103} style={{ padding: '0.5em' }}>
+    <DynamicFontSize ratio={11 / 117} style={{ padding: '0.5em' }}>
       <Paper elevation={4} className={classes['reward-item']}>
         <SquarePaper style={{ backgroundColor: rewardBgColor }}>
           <img

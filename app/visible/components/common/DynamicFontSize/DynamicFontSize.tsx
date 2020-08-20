@@ -37,7 +37,7 @@ export default function DynamicPaper({
           style={{
             ...style,
             width: '100%',
-            fontSize: `${Math.floor(textToContainerRatio * (width - 1))}px`,
+            fontSize: `${Math.floor(textToContainerRatio * width)}px`,
           }}
           {...restProps}
         >
