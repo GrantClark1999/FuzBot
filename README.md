@@ -14,28 +14,28 @@
       - [ ] Activate any actions associated with the redeemed reward
 
 - [ ] Rewards Page
-  - [ ] User can add a reward by making a temp PubSub listener
-    - [ ] 'ADD' opens a modal which gives brief instructions, and shows blank icon of reward
-      - [ ] Enabled 'Cancel' button and Disabled 'Save' button
-    - [ ] onRedemption -> if userId === channelId
-      - [ ] Display redeemed reward instead of blank icon
-      - [ ] Enable 'Save' button to save that reward
-        - [ ] onSave w/ chosen reward
-          - [ ] Stop listener
-          - [ ] save reward to [rewards.db]
-        - [ ] onRedemption -> if userId === channelId
-          - [ ] Replace current reward with new reward (w/ transition?)
-            - [ ] Change icon
-            - [ ] Changing object that gets saved onSave
-        - [ ] onCancel or onClickAway
-          - [ ] Stop listener
-  - [ ] User can view previously added rewards
+  - [X] User can add a reward by making a temp PubSub listener
+    - [X] 'ADD' opens a modal which gives brief instructions, and shows blank icon of reward
+      - [X] Enabled 'Cancel' button and Disabled 'Save' button
+    - [X] onRedemption -> if userId === channelId
+      - [X] Display redeemed reward instead of blank icon
+      - [X] Enable 'Save' button to save that reward
+        - [X] onSave w/ chosen reward
+          - [X] Stop listener
+          - [X] save reward to [rewards.db]
+        - [X] onRedemption -> if userId === channelId
+          - [X] Replace current reward with new reward (w/ transition?)
+            - [X] Change icon
+            - [X] Changing object that gets saved onSave
+        - [X] onCancel or onClickAway
+          - [X] Stop listener
+  - [X] User can view previously added rewards
   - [ ] User can manage previously added rewards
     - [ ] onRemove: remove reward from [rewards.db]
     - [ ] onEdit: update [rewards.db]
     - [ ] onArrange
-      - [ ] Default: Insertion order
-      - [ ] User can move around rewards -> update [rewards.db]
+      - [X] Default: Insertion order
+      - [X] User can move around rewards -> update [rewards.db]
       - [ ] View: Sort by Alphabetical Order
       - [ ] View: Sort by Cost
 
