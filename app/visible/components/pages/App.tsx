@@ -14,8 +14,6 @@ import { selectIsAuth } from './Login/authSlice';
 export default function App() {
   const isAuth = useSelector(selectIsAuth);
 
-  console.log(window.location);
-
   // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   const theme = React.useMemo(

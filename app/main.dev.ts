@@ -139,8 +139,6 @@ function createPubSubWindow() {
   // Prevents multiple login windows
   if (hiddenWindow) return;
 
-  console.log('Creating new window');
-
   hiddenWindow = new BrowserWindow({
     show: false,
     webPreferences: {
@@ -164,8 +162,6 @@ function createPubSubWindow() {
 }
 
 ipcMain.on('subscribe', () => {
-  console.log(`Current PubSub Window: ${hiddenWindow}`);
-  console.log('Create PubSub Window');
   createPubSubWindow();
 });
 

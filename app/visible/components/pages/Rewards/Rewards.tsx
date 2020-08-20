@@ -85,7 +85,6 @@ export default function Rewards() {
     setIsDialogOpen(true);
     ipcRenderer.send('subscribe');
     ipcRenderer.on('redemption', (_event, lastRedemption: RedemptionDoc) => {
-      console.log(lastRedemption);
       const { redemption } = lastRedemption.data;
       if (redemption.user.id === redemption.channel_id) {
         setValidRedemption(lastRedemption);
@@ -117,7 +116,6 @@ export default function Rewards() {
         rewardCost={reward.cost}
         rewardImage={reward.image?.url_4x ?? reward.default_image.url_4x}
         rewardBgColor={reward.background_color}
-        pointsImage="https://static-cdn.jtvnw.net/channel-points-icons/82521150/a1d00694-ee60-43ad-a336-42f68730d88f/icon-4.png"
       />
     );
   }
