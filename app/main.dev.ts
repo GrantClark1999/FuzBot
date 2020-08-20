@@ -133,31 +133,32 @@ app.on('activate', () => {
  * PubSub Window
  */
 
-let hiddenWindow: BrowserWindow | null = null;
+let pubSubWindow: BrowserWindow | null = null;
 
 function createPubSubWindow() {
   // Prevents multiple login windows
-  if (hiddenWindow) return;
+  if (pubSubWindow) return;
 
-  hiddenWindow = new BrowserWindow({
+  pubSubWindow = new BrowserWindow({
     show: false,
     webPreferences: {
       nodeIntegration: true,
     },
   });
 
-  hiddenWindow.loadURL(`file://${__dirname}/hidden/app.html`);
+  pubSubWindow.loadURL(`file://${__dirname}/hidden/app.html`);
 
-  hiddenWindow.once('ready-to-show', () => {
-    if (!hiddenWindow) {
+  pubSubWindow.once('ready-to-show', () => {
+    if (!pubSubWindow) {
       throw new Error('Unable to load PubSub window');
     }
-    // TODO: REMOVE LATER ONCE FUNCTIONAL
-    hiddenWindow.show();
+
+    // Uncomment below for debugging (hidden always by default)
+    // pubSubWindow.show();
   });
 
-  hiddenWindow.on('close', () => {
-    hiddenWindow = null;
+  pubSubWindow.on('close', () => {
+    pubSubWindow = null;
   });
 }
 
@@ -166,7 +167,7 @@ ipcMain.on('subscribe', () => {
 });
 
 ipcMain.on('unsubscribe', () => {
-  hiddenWindow?.webContents.send('cleanupPubSub');
+  pubSubWindow?.webContents.send('cleanupPubSub');
 });
 
 ipcMain.on('newRedemption', (_event, redemption) => {

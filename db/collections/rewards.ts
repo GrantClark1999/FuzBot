@@ -26,7 +26,7 @@ ipcMain.on('updateRewardOrder', (_event, docs: RewardDoc[]) => {
 // Read
 ipcMain.once('fetchRewardList', async (event) => {
   const docs = await db.find({});
-  event.reply('fetchedRewardsList', docs);
+  event.reply('fetchedRewardList', docs);
 });
 
 // Helper Functions

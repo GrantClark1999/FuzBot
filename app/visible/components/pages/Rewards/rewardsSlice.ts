@@ -69,7 +69,7 @@ export const {
   setPointsImage,
 } = rewardsSlice.actions;
 
-export const initRewardData = (): AppThunk => async (dispatch) => {
+export const initRewardData = (): AppThunk => (dispatch) => {
   ipcRenderer.send('fetchRewardList');
   ipcRenderer.send('fetchPointsImage');
   ipcRenderer.on('fetchedRewardList', (_event, rewardList) => {
