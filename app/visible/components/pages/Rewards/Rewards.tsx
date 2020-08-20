@@ -12,19 +12,12 @@ import classes from './Rewards.css';
 
 const SortableRewardItem = SortableElement(
   ({ reward }: { reward: RewardDoc }) => {
-    const {
-      rewardName,
-      rewardCost,
-      pointsImage,
-      rewardImage,
-      rewardBgColor,
-    } = reward;
+    const { rewardName, rewardCost, rewardImage, rewardBgColor } = reward;
     return (
       <div className={classes.reward}>
         <Reward
           rewardName={rewardName}
           rewardCost={rewardCost}
-          pointsImage={pointsImage}
           rewardImage={rewardImage}
           rewardBgColor={rewardBgColor}
         />
@@ -53,7 +46,6 @@ const defaultReward = (
   <Reward
     rewardName="Your Reward Here"
     rewardCost="Cost"
-    pointsImage="https://static-cdn.jtvnw.net/channel-points-icons/82521150/a1d00694-ee60-43ad-a336-42f68730d88f/icon-4.png"
     rewardImage="https://static-cdn.jtvnw.net/custom-reward-images/default-4.png"
     rewardBgColor="#9d50bb"
   />

@@ -2,7 +2,7 @@ import React from 'react';
 import ContainerDimensions from 'react-container-dimensions';
 import classes from './DynamicFontSize.css';
 
-type DynamicPaperProps = {
+type DynamicFontSizeProps = {
   /**
    * The content of the component
    */
@@ -20,14 +20,14 @@ const defaultProps = {
   ratio: 1,
 };
 
-DynamicPaper.defaultProps = defaultProps;
+DynamicFontSize.defaultProps = defaultProps;
 
-export default function DynamicPaper({
+export default function DynamicFontSize({
   ratio,
   children,
   style,
   ...restProps
-}: DynamicPaperProps & React.PropsWithoutRef<JSX.IntrinsicElements['div']>) {
+}: DynamicFontSizeProps & React.PropsWithoutRef<JSX.IntrinsicElements['div']>) {
   const textToContainerRatio = ratio ?? defaultProps.ratio;
   return (
     <ContainerDimensions>
@@ -36,7 +36,6 @@ export default function DynamicPaper({
           className={classes.fullwidth}
           style={{
             ...style,
-            width: '100%',
             fontSize: `${Math.floor(textToContainerRatio * width)}px`,
           }}
           {...restProps}

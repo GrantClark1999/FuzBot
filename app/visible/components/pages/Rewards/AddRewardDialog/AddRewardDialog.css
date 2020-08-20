@@ -1,16 +1,19 @@
 .add-reward-dialog__flex-container {
+  width: 600px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
 }
 
 .add-reward-dialog__reward-element {
   flex-basis: 50%;
-  min-width: 117px;
+  min-width: 217px;
 }
 
 .add-reward-dialog__description-element {
-  flex-basis: 50%;
-  min-width: 117px;
+  flex: 1 1 50%;
+  min-width: 217px;
   display: flex;
   flex-direction: column;
   justify-content: center;

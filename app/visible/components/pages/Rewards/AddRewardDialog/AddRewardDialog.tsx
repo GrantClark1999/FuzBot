@@ -4,7 +4,6 @@ import {
   Dialog,
   Grow,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Typography,
   Divider,
@@ -12,13 +11,10 @@ import {
 import { TransitionProps } from '@material-ui/core/transitions';
 import classes from './AddRewardDialog.css';
 
-const Transition = React.forwardRef(function Transition(
-  {
-    children,
-    ...restProps
-  }: TransitionProps & { children?: React.ReactElement<any, any> },
-  ref: React.Ref<unknown>
-) {
+const Transition = React.forwardRef(function Transition({
+  children,
+  ...restProps
+}: TransitionProps & { children?: React.ReactElement<any, any> }) {
   return (
     <Grow style={{ transformOrigin: '0 0 0' }} timeout={1000} {...restProps}>
       {children}
@@ -69,12 +65,16 @@ export default function AddRewardDialog({
             Add A Reward
           </Typography>
           <Divider />
-          <Typography variant="body1" id="add-reward-dialog-description">
-            To add a reward, keep this menu open and redeem any reward from your
-            channel. After redemption, you will see your reward on the left. If
-            you wish to change the reward to add, just redeem another one, then
-            click &ldquo;Save&rdquo; once you have the correct reward.
-          </Typography>
+          <div id="add-reward-dialog-description">
+            <Typography variant="body1">1. Keep this menu open</Typography>
+            <Typography variant="body1">
+              2. Redeem a reward on your channel
+            </Typography>
+            <Typography variant="body1">
+              3. View your most recent redemption on the left and save or close
+              the menu
+            </Typography>
+          </div>
         </div>
       </DialogContent>
       <DialogActions>
