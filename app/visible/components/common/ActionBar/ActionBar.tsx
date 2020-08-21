@@ -1,5 +1,11 @@
 import React from 'react';
-import { Theme, useTheme, makeStyles, createStyles } from '@material-ui/core';
+import {
+  Typography,
+  Theme,
+  useTheme,
+  makeStyles,
+  createStyles,
+} from '@material-ui/core';
 import Add from './Add';
 import Remove from './Remove';
 
@@ -17,12 +23,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type ActionBarProps = {
+  title?: string;
   handleAdd?: (...args: any[]) => void;
   handleRemove?: (...args: any[]) => void;
   isRemoving?: boolean;
 };
 
 const defaultProps = {
+  title: '',
   handleAdd: undefined,
   handleRemove: undefined,
   isRemoving: false,
@@ -31,6 +39,7 @@ const defaultProps = {
 ActionBar.defaultProps = defaultProps;
 
 export default function ActionBar({
+  title = defaultProps.title,
   handleAdd,
   handleRemove,
   isRemoving = defaultProps.isRemoving,
@@ -40,6 +49,9 @@ export default function ActionBar({
 
   return (
     <div className={classes.root}>
+      <Typography variant="h3" style={{ flexGrow: 1 }}>
+        {title}
+      </Typography>
       {handleAdd ? <Add onClick={handleAdd} /> : null}
       {handleRemove ? (
         <Remove isRemoving={isRemoving} onClick={handleRemove} />

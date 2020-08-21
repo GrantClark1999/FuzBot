@@ -152,13 +152,8 @@ export default function Rewards() {
 
   return (
     <>
-      {/* <Button variant="contained" color="secondary" onClick={handleDialogOpen}>
-        Add Reward
-      </Button>
-      <Button variant="contained" color="secondary" onClick={toggleCanRemove}>
-        Remove Rewards
-      </Button> */}
       <ActionBar
+        title="Channel Rewards"
         handleAdd={handleDialogOpen}
         handleRemove={toggleCanRemove}
         isRemoving={canRemove}

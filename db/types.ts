@@ -21,6 +21,7 @@ export type ChannelDoc = {
 export type DeviceDoc = {
   _id?: string;
   position: number;
+  deviceId: string;
   alias: string;
   host: string;
 };

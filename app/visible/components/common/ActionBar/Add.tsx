@@ -6,8 +6,11 @@ import AddIcon from '@material-ui/icons/Add';
 const useStyles = makeStyles(
   {
     fab: {
-      backgroundColor: green[600],
       color: '#ffffff',
+      backgroundColor: green[600],
+      '&:hover': {
+        backgroundColor: green[900],
+      },
     },
   },
   { name: 'Add-Button' }
