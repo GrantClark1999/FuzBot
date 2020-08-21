@@ -153,7 +153,6 @@ export default function Rewards() {
   return (
     <>
       <ActionBar
-        title="Channel Rewards"
         handleAdd={handleDialogOpen}
         handleRemove={toggleCanRemove}
         isRemoving={canRemove}
