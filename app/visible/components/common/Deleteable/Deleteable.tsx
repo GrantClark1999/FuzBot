@@ -1,20 +1,23 @@
 import React from 'react';
-import { Zoom, useTheme, Fab, makeStyles } from '@material-ui/core';
+import { Fab, Zoom, useTheme, makeStyles } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 
-const useStyles = makeStyles({
-  root: {
-    lineHeight: 0,
-    fontSize: '2.5em',
-    width: '1em',
-    height: '1em',
-    minHeight: 0,
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: 1,
+const useStyles = makeStyles(
+  {
+    root: {
+      lineHeight: 0,
+      fontSize: '2.5em',
+      width: '1em',
+      height: '1em',
+      minHeight: 0,
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      zIndex: 1,
+    },
   },
-});
+  { name: 'Deleteable' }
+);
 
 type DeleteableProps = {
   enable?: boolean;

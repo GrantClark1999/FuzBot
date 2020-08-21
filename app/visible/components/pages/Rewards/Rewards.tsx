@@ -4,6 +4,7 @@ import { ipcRenderer } from 'electron';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { Button } from '@material-ui/core';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { RewardDoc, RedemptionDoc } from '../../../../../db/types';
 import Reward from './Reward/Reward';
 import {
@@ -14,6 +15,7 @@ import {
 } from './rewardsSlice';
 import AddRewardDialog from './AddRewardDialog/AddRewardDialog';
 import classes from './Rewards.css';
+import ActionBar from '../../common/ActionBar/ActionBar';
 
 type SortableRewardItemProps = {
   reward: RewardDoc;
@@ -150,12 +152,17 @@ export default function Rewards() {
 
   return (
     <>
-      <Button variant="contained" color="secondary" onClick={handleDialogOpen}>
+      {/* <Button variant="contained" color="secondary" onClick={handleDialogOpen}>
         Add Reward
       </Button>
       <Button variant="contained" color="secondary" onClick={toggleCanRemove}>
         Remove Rewards
-      </Button>
+      </Button> */}
+      <ActionBar
+        handleAdd={handleDialogOpen}
+        handleRemove={toggleCanRemove}
+        isRemoving={canRemove}
+      />
       <AddRewardDialog
         open={isDialogOpen}
         canSave={canSave}

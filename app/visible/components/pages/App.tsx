@@ -9,6 +9,7 @@ import routes from 'app/constants/routes.json';
 import Login from './Login/Login';
 import Home from './Home/Home';
 import Rewards from './Rewards/Rewards';
+import Devices from './Devices/Devices';
 import { selectIsAuth } from './Login/authSlice';
 
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
       <Switch>
         <Route exact path={routes.DEFAULT} component={Home} />
         <Route exact path={routes.REWARDS} component={Rewards} />
+        <Route exact path={routes.DEVICES} component={Devices} />
       </Switch>
     </Layout>
   );
