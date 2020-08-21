@@ -37,12 +37,12 @@ const rewardsSlice = createSlice({
       state.rewardList.push(reward);
       ipcRenderer.send('logReward', reward);
     },
-    removeReward: (state, { payload }: Payload<RewardDoc>) => {
-      const index = state.rewardList.indexOf(payload);
-      state.rewardList.splice(index, 1);
-      updateRewardOrder(state.rewardList);
+    removeReward: (state, { payload }: Payload<number>) => {
+      // Payload === index to remove at
+      state.rewardList.splice(payload, 1);
+      updateRewardList(state.rewardList);
     },
-    updateRewardOrder: (state, { payload }: Payload<RewardDoc[]>) => {
+    updateRewardList: (state, { payload }: Payload<RewardDoc[]>) => {
       // Correct position property for each reward before setting state/storing.
       const rewardsWithCorrectPos = [];
       for (let i = 0; i < payload.length; i += 1) {
@@ -51,7 +51,7 @@ const rewardsSlice = createSlice({
         rewardsWithCorrectPos.push(reward);
       }
       state.rewardList = rewardsWithCorrectPos;
-      ipcRenderer.send('updateRewardOrder', rewardsWithCorrectPos);
+      ipcRenderer.send('updateRewardList', rewardsWithCorrectPos);
     },
     setPointsImage: (state, { payload }: Payload<string>) => {
       state.pointsImage = payload;
@@ -65,7 +65,7 @@ export const {
   setInitialPointsImage,
   addReward,
   removeReward,
-  updateRewardOrder,
+  updateRewardList,
   setPointsImage,
 } = rewardsSlice.actions;
 

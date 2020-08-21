@@ -15,12 +15,21 @@ ipcMain.on('logRewardFromRedemption', async (_event, doc: RedemptionDoc) => {
   update(rewardDoc);
 });
 
-ipcMain.on('updateRewardOrder', (_event, docs: RewardDoc[]) => {
-  const newDocs = [...docs];
-  for (let i = 0; i < newDocs.length; i += 1) {
-    newDocs[i].position = i;
-    update(newDocs[i]);
-  }
+ipcMain.on('updateRewardList', async (_event, updatedDocs: RewardDoc[]) => {
+  const storedDocs = <RewardDoc[]>await db.find({});
+  storedDocs.forEach((oldDoc) => {
+    const matchingDoc = updatedDocs.find(
+      (doc) => doc.rewardId === oldDoc.rewardId
+    );
+    if (matchingDoc) {
+      const { rewardId, position } = matchingDoc;
+      if (position !== oldDoc.position) {
+        db.update({ rewardId }, { $set: { position } });
+      }
+    } else {
+      db.remove({ rewardId: oldDoc.rewardId }, { multi: false });
+    }
+  });
 });
 
 // Read

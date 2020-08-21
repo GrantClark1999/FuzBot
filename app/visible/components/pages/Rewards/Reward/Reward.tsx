@@ -4,13 +4,18 @@ import { useSelector } from 'react-redux';
 import DynamicFontSize from 'app/visible/components/common/DynamicFontSize/DynamicFontSize';
 import SquarePaper from 'app/visible/components/common/SquarePaper/SquarePaper';
 import { RewardDoc } from '../../../../../../db/types';
+import Deleteable from '../../../common/Deleteable/Deleteable';
 import { selectPointsImage } from '../rewardsSlice';
 import classes from './Reward.css';
 
 type RewardProps = Omit<
   RewardDoc,
   '_id' | 'rewardId' | 'rewardCost' | 'isQueued' | 'position' | 'warn'
-> & { rewardCost: number | string };
+> & {
+  rewardCost: number | string;
+  canRemove?: boolean;
+  handleRemove?: () => void;
+};
 
 function transformCost(cost: number | string) {
   if (typeof cost === 'string') return cost;
@@ -29,15 +34,25 @@ const svg = (
   </svg>
 );
 
+const defaultProps = {
+  canRemove: false,
+  handleRemove: () => {},
+};
+
+Reward.defaultProps = defaultProps;
+
 export default function Reward({
   rewardName,
   rewardCost,
   rewardBgColor,
   rewardImage,
+  canRemove,
+  handleRemove,
 }: RewardProps) {
   const pointsImage = useSelector(selectPointsImage);
   return (
     <DynamicFontSize ratio={11 / 117} style={{ padding: '0.5em' }}>
+      <Deleteable enable={canRemove} onClick={handleRemove} />
       <Paper elevation={4} className={classes['reward-item']}>
         <SquarePaper style={{ backgroundColor: rewardBgColor }}>
           <img

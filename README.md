@@ -13,7 +13,7 @@
       - [ ] Store redemption log to redemptions.db
       - [ ] Activate any actions associated with the redeemed reward
 
-- [ ] Rewards Page
+- [X] Rewards Page
   - [X] User can add a reward by making a temp PubSub listener
     - [X] 'ADD' opens a modal which gives brief instructions, and shows blank icon of reward
       - [X] Enabled 'Cancel' button and Disabled 'Save' button
@@ -30,14 +30,13 @@
         - [X] onCancel or onClickAway
           - [X] Stop listener
   - [X] User can view previously added rewards
-  - [ ] User can manage previously added rewards
-    - [ ] onRemove: remove reward from [rewards.db]
-    - [ ] onEdit: update [rewards.db]
-    - [ ] onArrange
+  - [X] User can manage previously added rewards
+    - [X] onRemove: remove reward from [rewards.db]
+    - [X] onArrange
       - [X] Default: Insertion order
       - [X] User can move around rewards -> update [rewards.db]
-      - [ ] View: Sort by Alphabetical Order
-      - [ ] View: Sort by Cost
+      <!-- - [ ] View: Sort by Alphabetical Order -->
+      <!-- - [ ] View: Sort by Cost -->
 
 - [ ] Devices Page
   - [ ] User can add a new device

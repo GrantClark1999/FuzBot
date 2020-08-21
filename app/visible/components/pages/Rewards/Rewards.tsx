@@ -6,12 +6,23 @@ import arrayMove from 'array-move';
 import { Button } from '@material-ui/core';
 import { RewardDoc, RedemptionDoc } from '../../../../../db/types';
 import Reward from './Reward/Reward';
-import { selectRewardList, addReward, updateRewardOrder } from './rewardsSlice';
+import {
+  selectRewardList,
+  addReward,
+  removeReward,
+  updateRewardList,
+} from './rewardsSlice';
 import AddRewardDialog from './AddRewardDialog/AddRewardDialog';
 import classes from './Rewards.css';
 
+type SortableRewardItemProps = {
+  reward: RewardDoc;
+  canRemove: boolean;
+  handleRemove: () => void;
+};
+
 const SortableRewardItem = SortableElement(
-  ({ reward }: { reward: RewardDoc }) => {
+  ({ reward, canRemove, handleRemove }: SortableRewardItemProps) => {
     const { rewardName, rewardCost, rewardImage, rewardBgColor } = reward;
     return (
       <div className={classes.reward}>
@@ -20,14 +31,22 @@ const SortableRewardItem = SortableElement(
           rewardCost={rewardCost}
           rewardImage={rewardImage}
           rewardBgColor={rewardBgColor}
+          canRemove={canRemove}
+          handleRemove={handleRemove}
         />
       </div>
     );
   }
 );
 
+type SortableRewardListProps = {
+  rewards: RewardDoc[];
+  canRemove: boolean;
+  handleRemove: (index: number) => void;
+};
+
 const SortableRewardList = SortableContainer(
-  ({ rewards }: { rewards: RewardDoc[] }) => {
+  ({ rewards, canRemove, handleRemove }: SortableRewardListProps) => {
     return (
       <div className={classes.rewards}>
         {rewards.map((reward, index) => (
@@ -35,6 +54,9 @@ const SortableRewardList = SortableContainer(
             key={`reward-${reward.rewardId}`}
             index={index}
             reward={reward}
+            disabled={canRemove}
+            canRemove={canRemove}
+            handleRemove={() => handleRemove(index)}
           />
         ))}
       </div>
@@ -61,6 +83,9 @@ export default function Rewards() {
   const [validRedemption, setValidRedemption] = useState<RedemptionDoc>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [canSave, setCanSave] = useState(false);
+  const [canRemove, setCanRemove] = useState(false);
+
+  // Functions for handling modifications to the rewardList
 
   function onSortEnd({
     oldIndex,
@@ -69,9 +94,20 @@ export default function Rewards() {
     oldIndex: number;
     newIndex: number;
   }) {
-    const newOrder = arrayMove(rewardList, oldIndex, newIndex);
-    dispatch(updateRewardOrder(newOrder));
+    if (oldIndex === newIndex) return;
+    const newList = arrayMove(rewardList, oldIndex, newIndex);
+    dispatch(updateRewardList(newList));
   }
+
+  function toggleCanRemove() {
+    setCanRemove(!canRemove);
+  }
+
+  function handleRemoveReward(index: number) {
+    dispatch(removeReward(index));
+  }
+
+  // Functions for handling state changes on Dialog interaction.
 
   function handleDialogOpen() {
     setIsDialogOpen(true);
@@ -100,7 +136,7 @@ export default function Rewards() {
     handleDialogClose();
   }
 
-  function renderReward(doc: RedemptionDoc) {
+  function renderDialogReward(doc: RedemptionDoc) {
     const { reward } = doc.data.redemption;
     return (
       <Reward
@@ -117,18 +153,23 @@ export default function Rewards() {
       <Button variant="contained" color="secondary" onClick={handleDialogOpen}>
         Add Reward
       </Button>
+      <Button variant="contained" color="secondary" onClick={toggleCanRemove}>
+        Remove Rewards
+      </Button>
       <AddRewardDialog
         open={isDialogOpen}
         canSave={canSave}
         handleClose={handleDialogClose}
         handleSave={handleSaveReward}
       >
-        {validRedemption ? renderReward(validRedemption) : defaultReward}
+        {validRedemption ? renderDialogReward(validRedemption) : defaultReward}
       </AddRewardDialog>
       <SortableRewardList
         rewards={rewardList}
         onSortEnd={onSortEnd}
         axis="xy"
+        canRemove={canRemove}
+        handleRemove={handleRemoveReward}
       />
     </>
   );

@@ -11,14 +11,17 @@ import {
 import { TransitionProps } from '@material-ui/core/transitions';
 import classes from './AddRewardDialog.css';
 
-const Transition = React.forwardRef(function Transition({
-  children,
-  ...restProps
-}: TransitionProps & { children?: React.ReactElement<any, any> }) {
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement<any, any> },
+  ref: React.Ref<unknown>
+) {
   return (
-    <Grow style={{ transformOrigin: '0 0 0' }} timeout={1000} {...restProps}>
-      {children}
-    </Grow>
+    <Grow
+      style={{ transformOrigin: '0 0 0' }}
+      timeout={1000}
+      ref={ref}
+      {...props}
+    />
   );
 });
 

@@ -20,3 +20,9 @@ a:hover {
   text-decoration: none;
   cursor: pointer;
 }
+
+button {
+  font: inherit;
+  border: 0;
+  padding: 0;
+}
