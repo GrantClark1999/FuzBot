@@ -15,7 +15,7 @@ const items = [
     route: routes.DEFAULT,
   },
   {
-    label: 'Channel Rewards',
+    label: 'Rewards',
     icon: <RedeemIcon />,
     route: routes.REWARDS,
   },

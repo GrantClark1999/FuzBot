@@ -6,8 +6,10 @@ import Remove from './Remove';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
-      justifyContent: 'flex-end',
+      position: 'fixed',
+      right: 0,
+      zIndex: 1,
+      marginRight: theme.spacing(3),
       '& > *': {
         margin: theme.spacing(1),
         marginTop: 0,
